@@ -1,0 +1,6 @@
+{
+  "name": "Trade Meds — Clinical Apparel & Medical Essentials",
+  "description": "Thoughtful medical scrubs, chief lab coats, acoustic stethoscopes, and clinical footwear engineered for healthcare professionals across India.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

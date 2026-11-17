@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Trade Meds — Medical Apparel for Healthcare Professionals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --navy: #0A2540;
+  --navy-mid: #0E3461;
+  --blue: #2563EB;
+  --blue-light: #E8F4FD;
+  --green: #10B981;
+  --bg: #FFFFFF;
+  --bg-alt: #F5F7FA;
+  --text: #0A2540;
+  --text-mid: #4B5563;
+  --text-light: #9CA3AF;
+  --border: #E5E7EB;
+  --gold: #F59E0B;
+  --red: #EF4444;
+  --radius: 10px;
+  --shadow: 0 2px 16px rgba(10,37,64,.08);
+  --shadow-lg: 0 8px 40px rgba(10,37,64,.14);
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*, *::before, *::after { box-sizing: inherit; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, select, textarea { font-family: inherit; font-size: 1rem; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ANNOUNCEMENT BAR */
+.announce {
+  background: var(--navy);
+  color: #fff;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 600;
+  padding: .45rem 1rem;
+  letter-spacing: .02em;
+}
+.announce span { opacity: .6; margin: 0 .6rem; }
+.announce b { background: var(--blue); color: #fff; padding: .1rem .5rem; border-radius: 4px; margin-left: .4rem; }
+
+/* HEADER */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  height: 64px;
+  gap: 2rem;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -.01em;
+  color: var(--navy);
+  white-space: nowrap;
+}
+.brand-icon {
+  width: 36px; height: 36px;
+  background: var(--navy);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.1rem; font-weight: 800;
+  flex-shrink: 0;
+}
+.brand small { display: block; font-size: .6rem; font-weight: 500; color: var(--text-light); letter-spacing: .08em; line-height: 1; }
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  flex: 1;
+}
+.nav-item {
+  position: relative;
+}
+.nav-link {
+  padding: .45rem .75rem;
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text);
+  border-radius: 6px;
+  transition: background .15s;
+  display: flex; align-items: center; gap: .3rem;
+  cursor: pointer;
+}
+.nav-link:hover, .nav-link.active { background: var(--bg-alt); }
+.nav-link svg { width: 14px; height: 14px; transition: transform .2s; }
+.nav-item:hover .nav-link svg { transform: rotate(180deg); }
+
+/* MEGA MENU */
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 540px;
+  padding: 1.5rem;
+  z-index: 300;
+}
+.nav-item:hover .mega-menu { display: grid; }
+.mega-cols { grid-template-columns: 1fr 1fr; gap: 1rem; }
+.mega-title { font-size: .7rem; font-weight: 700; color: var(--text-light); letter-spacing: .08em; margin-bottom: .6rem; }
+.mega-links { display: flex; flex-direction: column; gap: .2rem; }
+.mega-links a {
+  font-size: .88rem; font-weight: 500; color: var(--text-mid);
+  padding: .3rem .5rem; border-radius: 6px; transition: all .15s;
+}
+.mega-links a:hover { background: var(--blue-light); color: var(--blue); }
+.mega-promo {
+  grid-column: 1/-1;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: .5rem;
+}
+.mega-promo span { font-size: .8rem; opacity: .7; }
+.mega-promo b { font-size: .95rem; }
+.mega-promo a { background: #fff; color: var(--navy); font-size: .8rem; font-weight: 700; padding: .35rem .8rem; border-radius: 6px; }
+
+.header-actions { display: flex; align-items: center; gap: .5rem; margin-left: auto; }
+.icon-btn {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; color: var(--text); position: relative;
+  transition: background .15s; cursor: pointer;
+}
+.icon-btn:hover { background: var(--bg-alt); }
+.icon-btn svg { width: 20px; height: 20px; }
+.badge {
+  position: absolute; top: 2px; right: 2px;
+  background: var(--blue); color: #fff;
+  font-size: .6rem; font-weight: 700;
+  min-width: 16px; height: 16px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  padding: 0 3px;
+}
+.btn-search-wrap { position: relative; }
+.search-panel {
+  position: absolute;
+  right: 0; top: calc(100% + 8px);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: .5rem;
+  padding: .6rem .8rem;
+  width: 320px; z-index: 300;
+}
+.search-panel input {
+  flex: 1; border: none; outline: none; font-size: .9rem; color: var(--text);
+}
+.search-panel button {
+  background: var(--blue); color: #fff;
+  font-size: .8rem; font-weight: 600;
+  padding: .35rem .75rem; border-radius: 6px;
+}
+.mobile-menu-btn { display: none; }
+.mobile-menu-btn svg { width: 22px; height: 22px; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  font-weight: 700; border-radius: var(--radius);
+  padding: .75rem 1.5rem; font-size: .9rem;
+  transition: all .18s; cursor: pointer; border: 2px solid transparent;
+}
+.btn-primary { background: var(--navy); color: #fff; }
+.btn-primary:hover { background: var(--blue); }
+.btn-blue { background: var(--blue); color: #fff; }
+.btn-blue:hover { background: #1d4ed8; }
+.btn-outline { border-color: var(--navy); color: var(--navy); background: transparent; }
+.btn-outline:hover { background: var(--navy); color: #fff; }
+.btn-white { background: #fff; color: var(--navy); }
+.btn-white:hover { background: #f0f4ff; }
+.btn-sm { padding: .5rem 1rem; font-size: .82rem; }
+.btn-lg { padding: .9rem 2rem; font-size: 1rem; }
+.btn-full { width: 100%; }
+.btn svg { width: 16px; height: 16px; }
+
+/* HERO */
+.hero {
+  position: relative;
+  height: 90vh;
+  min-height: 560px;
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #0A2540 0%, #1e4d8c 60%, #2563EB 100%);
+}
+.hero-bg-img {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&w=2200&q=90');
+  background-size: cover; background-position: center;
+  opacity: .35;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto; padding: 3rem 2rem 5rem;
+  width: 100%;
+}
+.hero-eyebrow {
+  font-size: .75rem; font-weight: 700;
+  color: rgba(255,255,255,.65); letter-spacing: .12em;
+  margin-bottom: 1rem; display: block;
+}
+.hero h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  color: #fff;
+  line-height: 1.15;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  max-width: 580px;
+}
+.hero h1 em { font-style: italic; color: #93C5FD; }
+.hero p {
+  color: rgba(255,255,255,.8);
+  font-size: 1.05rem;
+  max-width: 440px;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+.hero-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+.hero-ticker {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,.35); backdrop-filter: blur(8px);
+  display: flex; align-items: center;
+  padding: .75rem 2rem;
+  font-size: .78rem; font-weight: 700;
+  color: rgba(255,255,255,.8);
+  letter-spacing: .1em;
+  gap: 2.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker-item { display: flex; align-items: center; gap: .5rem; }
+.ticker-item::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+
+/* STATS BAR */
+.stats-bar {
+  background: var(--navy);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.stat-item {
+  padding: 1.8rem 1rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,.1);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-size: 2rem; font-weight: 800; color: #fff; line-height: 1;
+  margin-bottom: .3rem;
+}
+.stat-label { font-size: .78rem; color: rgba(255,255,255,.55); font-weight: 500; }
+
+/* SECTION SPACING */
+.section { padding: 5rem 0; }
+.section-sm { padding: 3rem 0; }
+.section-alt { background: var(--bg-alt); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+/* SECTION HEADINGS */
+.section-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+.section-head h2 {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--navy);
+}
+.section-head h2 em { font-style: italic; color: var(--blue); }
+.section-sub { font-size: .9rem; color: var(--text-mid); margin-top: .4rem; max-width: 460px; }
+.view-all { font-size: .88rem; font-weight: 700; color: var(--blue); display: flex; align-items: center; gap: .3rem; white-space: nowrap; }
+.view-all:hover { text-decoration: underline; }
+
+/* CATEGORY GRID */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.cat-card {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  aspect-ratio: 3/4; cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+.cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.cat-card img { width: 100%; height: 100%; object-fit: cover; }
+.cat-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,37,64,.85) 0%, transparent 55%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1rem .9rem;
+}
+.cat-overlay h3 { color: #fff; font-size: .92rem; font-weight: 700; line-height: 1.2; }
+.cat-overlay span { color: rgba(255,255,255,.65); font-size: .75rem; margin-bottom: .4rem; display: block; }
+.cat-pill {
+  position: absolute; top: .6rem; left: .6rem;
+  background: rgba(255,255,255,.92); color: var(--navy);
+  font-size: .68rem; font-weight: 700;
+  padding: .2rem .5rem; border-radius: 20px;
+}
+
+/* PRODUCT GRID */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.product-card {
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: box-shadow .2s, transform .2s;
+  cursor: pointer;
+}
+.product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.product-img {
+  position: relative; overflow: hidden;
+  aspect-ratio: 3/4; background: var(--bg-alt);
+}
+.product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.product-card:hover .product-img img { transform: scale(1.04); }
+.product-badge {
+  position: absolute; top: .6rem; left: .6rem;
+  font-size: .68rem; font-weight: 700;
+  padding: .22rem .55rem; border-radius: 20px;
+}
+.badge-best { background: var(--navy); color: #fff; }
+.badge-new { background: var(--green); color: #fff; }
+.badge-sale { background: var(--red); color: #fff; }
+.wishlist-btn {
+  position: absolute; top: .6rem; right: .6rem;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,.92); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-mid); transition: all .15s;
+}
+.wishlist-btn:hover, .wishlist-btn.active { color: var(--red); background: #fff; }
+.wishlist-btn svg { width: 16px; height: 16px; }
+.quick-add {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--navy); color: #fff;
+  font-size: .82rem; font-weight: 700;
+  padding: .6rem; text-align: center;
+  transform: translateY(100%); transition: transform .2s;
+}
+.product-card:hover .quick-add { transform: translateY(0); }
+.product-info { padding: 1rem; }
+.product-name { font-size: .9rem; font-weight: 700; color: var(--text); margin-bottom: .3rem; line-height: 1.3; }
+.product-cat { font-size: .75rem; color: var(--text-light); margin-bottom: .5rem; }
+.product-rating { display: flex; align-items: center; gap: .3rem; font-size: .78rem; color: var(--text-mid); margin-bottom: .6rem; }
+.product-rating svg { width: 13px; height: 13px; fill: var(--gold); color: var(--gold); }
+.product-price-row { display: flex; align-items: center; gap: .6rem; }
+.product-price { font-size: 1rem; font-weight: 800; color: var(--navy); }
+.product-price-old { font-size: .82rem; color: var(--text-light); text-decoration: line-through; }
+.product-swatches { display: flex; gap: .3rem; margin-top: .5rem; flex-wrap: wrap; }
+.swatch {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid transparent; cursor: pointer;
+  transition: border-color .15s;
+}
+.swatch:hover, .swatch.active { border-color: var(--navy); }
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex; align-items: center; gap: .8rem;
+  margin-bottom: 2rem; flex-wrap: wrap;
+}
+.filter-pill {
+  padding: .45rem 1rem;
+  font-size: .82rem; font-weight: 600;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  color: var(--text-mid); cursor: pointer;
+  transition: all .15s; background: #fff;
+}
+.filter-pill:hover, .filter-pill.active {
+  border-color: var(--navy); background: var(--navy); color: #fff;
+}
+.filter-count { font-size: .78rem; color: var(--text-light); margin-left: auto; }
+
+/* FEATURE BAND */
+.feature-band {
+  background: var(--navy);
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+}
+.feature-band-content {
+  padding: 4rem 3rem 4rem 2rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.feature-band .eyebrow { font-size: .72rem; font-weight: 700; color: rgba(255,255,255,.5); letter-spacing: .1em; margin-bottom: .8rem; display: block; }
+.feature-band h2 { font-family: 'Lora', serif; font-size: 2.2rem; color: #fff; font-weight: 600; line-height: 1.2; margin-bottom: 1rem; }
+.feature-band h2 em { font-style: italic; color: #93C5FD; }
+.feature-band p { color: rgba(255,255,255,.75); font-size: .95rem; margin-bottom: 2rem; max-width: 400px; line-height: 1.7; }
+.feature-band-img { overflow: hidden; }
+.feature-band-img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* TRUST BADGES */
+.trust-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+}
+.trust-card {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.trust-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: var(--blue-light);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--blue);
+}
+.trust-icon svg { width: 22px; height: 22px; }
+.trust-card h4 { font-size: .9rem; font-weight: 700; color: var(--navy); margin-bottom: .25rem; }
+.trust-card p { font-size: .8rem; color: var(--text-mid); line-height: 1.5; }
+
+/* INSTITUTIONS */
+.logos-track {
+  display: flex; gap: 2.5rem; align-items: center; flex-wrap: wrap; justify-content: center;
+}
+.logos-track img {
+  height: 36px; object-fit: contain;
+  opacity: .55; filter: grayscale(1);
+  transition: opacity .15s, filter .15s;
+}
+.logos-track img:hover { opacity: 1; filter: none; }
+
+/* TESTIMONIALS */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+}
+.testimonial-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.testimonial-stars { display: flex; gap: 2px; color: var(--gold); margin-bottom: .8rem; }
+.testimonial-stars svg { width: 15px; height: 15px; fill: currentColor; }
+.testimonial-text { font-size: .88rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 1.2rem; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: .75rem; }
+.testimonial-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  overflow: hidden; background: var(--bg-alt); flex-shrink: 0;
+}
+.testimonial-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.testimonial-name { font-size: .88rem; font-weight: 700; color: var(--navy); }
+.testimonial-role { font-size: .75rem; color: var(--text-light); }
+
+/* NEWS */
+.news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.news-card {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; transition: box-shadow .2s;
+}
+.news-card:hover { box-shadow: var(--shadow-lg); }
+.news-card-img { aspect-ratio: 16/9; overflow: hidden; background: var(--bg-alt); }
+.news-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.news-card-body { padding: 1.2rem; }
+.news-source { font-size: .72rem; font-weight: 700; color: var(--blue); letter-spacing: .06em; margin-bottom: .5rem; display: block; }
+.news-card h4 { font-size: .9rem; font-weight: 700; color: var(--navy); line-height: 1.4; }
+
+/* PRODUCT DETAIL PAGE */
+.product-detail {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  align-items: start;
+}
+.pdp-gallery { position: sticky; top: 80px; }
+.pdp-main-img {
+  aspect-ratio: 3/4; border-radius: var(--radius);
+  overflow: hidden; background: var(--bg-alt); margin-bottom: 1rem;
+}
+.pdp-main-img img { width: 100%; height: 100%; object-fit: cover; }
+.pdp-thumbs { display: flex; gap: .6rem; }
+.pdp-thumb {
+  width: 72px; height: 90px; border-radius: 6px;
+  overflow: hidden; border: 2px solid transparent;
+  cursor: pointer; flex-shrink: 0; background: var(--bg-alt);
+  transition: border-color .15s;
+}
+.pdp-thumb.active { border-color: var(--navy); }
+.pdp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.pdp-info { padding-top: .5rem; }
+.pdp-eyebrow { font-size: .72rem; font-weight: 700; color: var(--blue); letter-spacing: .08em; margin-bottom: .6rem; display: block; }
+.pdp-info h1 { font-size: 1.7rem; font-weight: 800; color: var(--navy); line-height: 1.2; margin-bottom: .6rem; }
+.pdp-rating { display: flex; align-items: center; gap: .4rem; font-size: .88rem; color: var(--text-mid); margin-bottom: 1rem; }
+.pdp-rating svg { width: 15px; height: 15px; fill: var(--gold); color: var(--gold); }
+.pdp-price-row { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.5rem; }
+.pdp-price { font-size: 1.8rem; font-weight: 800; color: var(--navy); }
+.pdp-price-old { font-size: 1.1rem; color: var(--text-light); text-decoration: line-through; }
+.pdp-price-save { font-size: .82rem; font-weight: 700; color: var(--green); background: #d1fae5; padding: .2rem .5rem; border-radius: 20px; }
+
+.pdp-desc { font-size: .9rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 1.5rem; }
+.pdp-label { font-size: .78rem; font-weight: 700; color: var(--text); margin-bottom: .6rem; display: block; }
+.pdp-colors { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.color-btn {
+  padding: .35rem .9rem; font-size: .82rem; font-weight: 600;
+  border: 1.5px solid var(--border); border-radius: 20px;
+  cursor: pointer; transition: all .15s; color: var(--text-mid); background: #fff;
+}
+.color-btn.active { border-color: var(--navy); background: var(--navy); color: #fff; }
+.pdp-sizes { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.size-btn {
+  min-width: 48px; height: 44px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: .88rem; font-weight: 600;
+  cursor: pointer; transition: all .15s; color: var(--text-mid); background: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.size-btn.active { border-color: var(--navy); background: var(--navy); color: #fff; }
+.size-btn:disabled { opacity: .35; cursor: not-allowed; }
+.pdp-qty { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.5rem; }
+.qty-ctrl {
+  display: flex; align-items: center;
+  border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.qty-btn {
+  width: 38px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text); font-size: 1.1rem; font-weight: 500;
+  cursor: pointer; transition: background .15s;
+}
+.qty-btn:hover { background: var(--bg-alt); }
+.qty-val {
+  width: 46px; height: 44px;
+  text-align: center; border: none;
+  border-left: 1.5px solid var(--border); border-right: 1.5px solid var(--border);
+  font-size: .95rem; font-weight: 700; color: var(--navy);
+}
+.pdp-actions { display: flex; gap: .8rem; margin-bottom: 1.8rem; }
+.pdp-perks { display: flex; flex-direction: column; gap: .5rem; }
+.pdp-perk { font-size: .82rem; color: var(--text-mid); display: flex; align-items: center; gap: .5rem; }
+.pdp-perk svg { width: 15px; height: 15px; color: var(--green); flex-shrink: 0; }
+
+/* CART */
+.cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: 2.5rem; align-items: start; }
+.cart-items { display: flex; flex-direction: column; gap: 1rem; }
+.cart-item {
+  display: grid; grid-template-columns: 100px 1fr auto;
+  gap: 1.2rem; align-items: center;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem;
+}
+.cart-item-img { width: 100px; aspect-ratio: 3/4; border-radius: 6px; overflow: hidden; background: var(--bg-alt); }
+.cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+.cart-item-name { font-weight: 700; color: var(--navy); font-size: .92rem; margin-bottom: .2rem; }
+.cart-item-meta { font-size: .78rem; color: var(--text-light); margin-bottom: .6rem; }
+.cart-item-price { font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: .6rem; }
+.cart-remove { font-size: .78rem; color: var(--red); cursor: pointer; font-weight: 600; }
+.cart-remove:hover { text-decoration: underline; }
+
+.order-summary {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.5rem; position: sticky; top: 90px;
+}
+.order-summary h3 { font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 1.2rem; }
+.summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: .8rem; font-size: .88rem; }
+.summary-row span { color: var(--text-mid); }
+.summary-row b { font-weight: 700; color: var(--navy); }
+.summary-divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+.summary-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+.summary-total span { font-size: .95rem; font-weight: 700; color: var(--navy); }
+.summary-total b { font-size: 1.3rem; font-weight: 800; color: var(--navy); }
+.coupon-row { display: flex; gap: .5rem; margin-bottom: 1.2rem; }
+.coupon-row input {
+  flex: 1; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: .55rem .8rem; font-size: .88rem; outline: none;
+}
+.coupon-row input:focus { border-color: var(--navy); }
+.coupon-row button { background: var(--bg-alt); color: var(--navy); font-size: .82rem; font-weight: 700; padding: .55rem 1rem; border-radius: 8px; cursor: pointer; }
+
+/* CHECKOUT */
+.checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 3rem; align-items: start; }
+.checkout-form { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+.checkout-form h3 { font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid var(--border); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: .4rem; }
+.form-group.full { grid-column: 1/-1; }
+.form-group label { font-size: .78rem; font-weight: 700; color: var(--text); }
+.form-group input, .form-group select, .form-group textarea {
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: .65rem .9rem; font-size: .9rem; color: var(--text);
+  outline: none; transition: border-color .15s; background: #fff;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--navy); }
+.form-section-gap { margin-top: 1.5rem; }
+
+/* PAYMENT OPTIONS */
+.payment-options { display: flex; flex-direction: column; gap: .7rem; margin-top: .5rem; }
+.pay-option {
+  display: flex; align-items: center; gap: .9rem;
+  padding: .9rem 1rem;
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; transition: all .15s;
+}
+.pay-option.selected { border-color: var(--navy); background: #f0f4ff; }
+.pay-radio {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.pay-option.selected .pay-radio { border-color: var(--navy); }
+.pay-radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--navy); display: none; }
+.pay-option.selected .pay-radio::after { display: block; }
+.pay-label { font-size: .9rem; font-weight: 600; color: var(--navy); flex: 1; }
+.pay-icons { display: flex; gap: .4rem; }
+.pay-icon {
+  background: var(--bg-alt); border-radius: 4px;
+  padding: .2rem .5rem; font-size: .68rem; font-weight: 700; color: var(--text-mid);
+}
+
+/* ORDER SUCCESS */
+.success-box {
+  max-width: 540px; margin: 0 auto; text-align: center; padding: 4rem 2rem;
+}
+.success-icon {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: #d1fae5; color: var(--green);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;
+}
+.success-icon svg { width: 40px; height: 40px; }
+.success-box h2 { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: .8rem; }
+.success-box p { font-size: .95rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 2rem; }
+.order-id { background: var(--bg-alt); border-radius: var(--radius); padding: 1rem; margin-bottom: 2rem; font-size: .88rem; }
+
+/* FOOTER */
+.site-footer { background: var(--navy); color: rgba(255,255,255,.75); padding: 4rem 0 2rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 3rem; }
+.footer-brand .brand { color: #fff; margin-bottom: 1rem; }
+.footer-brand p { font-size: .82rem; line-height: 1.65; max-width: 280px; }
+.footer-col h5 { font-size: .82rem; font-weight: 700; color: #fff; margin-bottom: .9rem; letter-spacing: .06em; }
+.footer-col a { display: block; font-size: .82rem; padding: .22rem 0; transition: color .15s; }
+.footer-col a:hover { color: #fff; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p { font-size: .78rem; }
+.footer-bottom-links { display: flex; gap: 1.2rem; }
+.footer-bottom-links a { font-size: .78rem; transition: color .15s; }
+.footer-bottom-links a:hover { color: #fff; }
+.social-row { display: flex; gap: .6rem; margin-top: 1rem; }
+.social-btn {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.75); transition: all .15s;
+}
+.social-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
+.social-btn svg { width: 16px; height: 16px; }
+
+/* PAGE HEADER */
+.page-hero {
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  padding: 3.5rem 2rem;
+  text-align: center; color: #fff;
+}
+.page-hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: .5rem; }
+.page-hero p { font-size: .95rem; opacity: .75; }
+
+/* BREADCRUMB */
+.breadcrumb { display: flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--text-mid); padding: 1rem 0; flex-wrap: wrap; }
+.breadcrumb a { color: var(--blue); }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { opacity: .5; }
+
+/* EMPTY STATE */
+.empty-state { text-align: center; padding: 5rem 2rem; }
+.empty-state h3 { font-size: 1.3rem; font-weight: 700; color: var(--navy); margin: 1rem 0 .5rem; }
+.empty-state p { color: var(--text-mid); font-size: .9rem; margin-bottom: 2rem; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  background: var(--navy); color: #fff;
+  padding: .9rem 1.4rem; border-radius: var(--radius);
+  font-size: .9rem; font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: .6rem;
+  transform: translateY(120%); transition: transform .3s;
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); }
+.toast svg { width: 18px; height: 18px; color: var(--green); flex-shrink: 0; }
+
+/* MOBILE DRAWER */
+.mobile-nav {
+  display: none;
+  position: fixed; inset: 0; z-index: 400;
+  background: rgba(0,0,0,.5);
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav-panel {
+  background: #fff; width: 85%; max-width: 360px;
+  height: 100%; overflow-y: auto;
+  padding: 1.5rem;
+}
+.mobile-nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.mobile-nav-links { display: flex; flex-direction: column; gap: .2rem; }
+.mobile-nav-links a {
+  display: block; padding: .75rem .8rem; border-radius: 8px;
+  font-size: .95rem; font-weight: 600; color: var(--text);
+  transition: background .15s;
+}
+.mobile-nav-links a:hover { background: var(--bg-alt); }
+.mobile-nav-sep { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .cat-grid { grid-template-columns: repeat(3, 1fr); }
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .main-nav { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .product-detail { grid-template-columns: 1fr; gap: 2rem; }
+  .pdp-gallery { position: static; }
+  .checkout-layout { grid-template-columns: 1fr; }
+  .cart-layout { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .trust-row { grid-template-columns: 1fr 1fr; }
+  .news-grid { grid-template-columns: 1fr 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr 1fr; }
+  .feature-band { grid-template-columns: 1fr; }
+  .feature-band-img { display: none; }
+}
+@media (max-width: 640px) {
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+  .product-grid { grid-template-columns: 1fr 1fr; }
+  .hero { height: 70vh; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .trust-row { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .container { padding: 0 1rem; }
+  .section { padding: 3rem 0; }
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .cart-item { grid-template-columns: 80px 1fr; }
+  .order-summary { position: static; }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1623;
+    --bg-alt: #161e2d;
+    --text: #e8edf5;
+    --text-mid: #9eafc2;
+    --text-light: #566882;
+    --border: #1f2d3d;
+    --shadow: 0 2px 16px rgba(0,0,0,.3);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,.4);
+  }
+  .site-header, .product-card, .cart-item, .order-summary, .checkout-form, .trust-card, .news-card, .testimonial-card { background: var(--bg-alt); border-color: var(--border); }
+  .mega-menu, .search-panel { background: var(--bg-alt); }
+  .color-btn, .size-btn, .pay-option { background: var(--bg-alt); border-color: var(--border); color: var(--text-mid); }
+  .pay-option.selected { background: #1a2840; }
+  .order-id { background: var(--bg); }
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toast-msg">Added to bag!</span>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav" onclick="closeMobileNav(event)">
+  <div class="mobile-nav-panel">
+    <div class="mobile-nav-header">
+      <div class="brand"><div class="brand-icon">T</div><span>TRADE <b>MEDS</b><small>CARE IN EVERY DETAIL</small></span></div>
+      <button class="icon-btn" onclick="document.getElementById('mobileNav').classList.remove('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="mobile-nav-links">
+      <a onclick="navigate('home');closeMobileNavPanel()">Home</a>
+      <a onclick="navigate('shop');closeMobileNavPanel()">Shop All</a>
+      <a onclick="navigate('shop','Women');closeMobileNavPanel()">Women's</a>
+      <a onclick="navigate('shop','Men');closeMobileNavPanel()">Men's</a>
+      <a onclick="navigate('shop','Lab Coats');closeMobileNavPanel()">Lab Coats</a>
+      <a onclick="navigate('shop','Stethoscopes');closeMobileNavPanel()">Stethoscopes</a>
+      <a onclick="navigate('shop','Accessories');closeMobileNavPanel()">Accessories & Footwear</a>
+      <hr class="mobile-nav-sep"/>
+      <a onclick="navigate('cart');closeMobileNavPanel()">Shopping Bag</a>
+    </div>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announce">
+  Get 12% Off | Use code: <b>FLASH12</b>
+  <span>·</span>
+  Free delivery on orders above ₹1,999
+  <span>·</span>
+  COD Available
+  <span>·</span>
+  Easy EMI options
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <button class="icon-btn mobile-menu-btn" onclick="document.getElementById('mobileNav').classList.add('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+
+  <a class="brand" onclick="navigate('home')" href="#">
+    <div class="brand-icon">T</div>
+    <span>TRADE <b>MEDS</b><small>CARE IN EVERY DETAIL</small></span>
+  </a>
+
+  <nav class="main-nav">
+    <div class="nav-item">
+      <div class="nav-link" onclick="navigate('shop','Women')">
+        Women's
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="mega-menu mega-cols">
+        <div>
+          <div class="mega-title">SCRUBS</div>
+          <div class="mega-links">
+            <a onclick="navigate('shop','Women')">All Women's Scrubs</a>
+            <a onclick="navigate('shop','Women')">Classic V-Neck Scrubs</a>
+            <a onclick="navigate('shop','Women')">ecoflex™ 4-Way Stretch</a>
+            <a onclick="navigate('shop','Women')">ecoflex™ Lite 2-Way</a>
+          </div>
+        </div>
+        <div>
+          <div class="mega-title">MORE</div>
+          <div class="mega-links">
+            <a onclick="navigate('shop','Lab Coats')">Lab Coats</a>
+            <a onclick="navigate('shop','Stethoscopes')">Stethoscopes</a>
+            <a onclick="navigate('shop','Accessories')">Underscrubs</a>
+            <a onclick="navigate('shop','Accessories')">Scrub Caps</a>
+          </div>
+        </div>
+        <div class="mega-promo">
+          <div><span>NEW ARRIVALS</span><b>Fresh styles, every shift.</b></div>
+          <a onclick="navigate('shop','Women')">Shop now</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-link" onclick="navigate('shop','Men')">
+        Men's
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="mega-menu mega-cols">
+        <div>
+          <div class="mega-title">SCRUBS</div>
+          <div class="mega-links">
+            <a onclick="navigate('shop','Men')">All Men's Scrubs</a>
+            <a onclick="navigate('shop','Men')">Classic V-Neck Scrubs</a>
+            <a onclick="navigate('shop','Men')">ecoflex™ 4-Way Stretch</a>
+            <a onclick="navigate('shop','Men')">ecoflex™ Lite 2-Way</a>
+          </div>
+        </div>
+        <div>
+          <div class="mega-title">MORE</div>
+          <div class="mega-links">
+            <a onclick="navigate('shop','Lab Coats')">Lab Coats</a>
+            <a onclick="navigate('shop','Stethoscopes')">Stethoscopes</a>
+            <a onclick="navigate('shop','Accessories')">Accessories</a>
+            <a onclick="navigate('shop','Accessories')">Footwear / Clogs</a>
+          </div>
+        </div>
+        <div class="mega-promo">
+          <div><span>BESTSELLERS</span><b>Community favourites.</b></div>
+          <a onclick="navigate('shop','Men')">Shop now</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item"><div class="nav-link" onclick="navigate('shop','Lab Coats')">Lab Coats</div></div>
+    <div class="nav-item"><div class="nav-link" onclick="navigate('shop','Stethoscopes')">Stethoscopes</div></div>
+    <div class="nav-item"><div class="nav-link" onclick="navigate('shop','Accessories')">Footwear</div></div>
+    <div class="nav-item"><div class="nav-link" onclick="navigate('shop')">Bestsellers</div></div>
+  </nav>
+
+  <div class="header-actions">
+    <div class="btn-search-wrap">
+      <div class="icon-btn" onclick="toggleSearch()" id="searchBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <div class="search-panel" id="searchPanel" style="display:none">
+        <input type="text" placeholder="Search scrubs, lab coats, stethoscopes..." id="searchInput" oninput="handleSearch(this.value)"/>
+        <button onclick="navigate('shop')">Search</button>
+      </div>
+    </div>
+    <div class="icon-btn" onclick="navigate('wishlist')" title="Wishlist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="badge" id="wishlistBadge" style="display:none">0</span>
+    </div>
+    <div class="icon-btn" onclick="navigate('cart')" title="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="badge" id="cartBadge" style="display:none">0</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-bg-img"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">MADE FOR THE EVERYDAY HERO</span>
+      <h1>Care starts with<br/><em>what you wear.</em></h1>
+      <p>Thoughtful medical apparel designed to keep up with every shift, every step, and every act of care. For doctors, nurses, students, and everyone in between.</p>
+      <div class="hero-actions">
+        <button class="btn btn-white btn-lg" onclick="navigate('shop')">
+          Shop the collection
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,.5);color:#fff;" onclick="navigate('shop','Stethoscopes')">Explore Stethoscopes</button>
+      </div>
+    </div>
+    <div class="hero-ticker">
+      <div class="ticker-item">ANTI-DISTRACTION DESIGN</div>
+      <div class="ticker-item">LAB TESTED FABRICS</div>
+      <div class="ticker-item">LONG-SHIFT VERIFIED</div>
+      <div class="ticker-item">TONS OF STORAGE</div>
+      <div class="ticker-item">FREE DELIVERY ABOVE ₹1,999</div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-num">10,000+</div><div class="stat-label">5-Star Reviews</div></div>
+    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Institutions Served</div></div>
+    <div class="stat-item"><div class="stat-num">2 Lakh+</div><div class="stat-label">Happy Customers</div></div>
+    <div class="stat-item"><div class="stat-num">99.2%</div><div class="stat-label">Satisfaction Rate</div></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Shop by <em>collection</em></h2>
+          <p class="section-sub">From scrubs to stethoscopes — everything a medical professional needs.</p>
+        </div>
+        <a class="view-all" onclick="navigate('shop')" href="#">
+          View all
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card" onclick="navigate('shop','Women')">
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80" alt="Women's Scrubs" loading="lazy"/>
+          <div class="cat-overlay"><span>Comfort in every shift</span><h3>Women's Scrubs</h3></div>
+        </div>
+        <div class="cat-card" onclick="navigate('shop','Men')">
+          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=600&q=80" alt="Men's Scrubs" loading="lazy"/>
+          <div class="cat-overlay"><span>Built to work as hard as you</span><h3>Men's Scrubs</h3></div>
+          <div class="cat-pill">Bestseller</div>
+        </div>
+        <div class="cat-card" onclick="navigate('shop','Lab Coats')">
+          <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=600&q=80" alt="Lab Coats" loading="lazy"/>
+          <div class="cat-overlay"><span>A classic, considered essential</span><h3>Lab Coats</h3></div>
+        </div>
+        <div class="cat-card" onclick="navigate('shop','Stethoscopes')">
+          <img src="https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=600&q=80" alt="Stethoscopes" loading="lazy"/>
+          <div class="cat-overlay"><span>Brilliant sound, innovative design</span><h3>Stethoscopes</h3></div>
+          <div class="cat-pill">New</div>
+        </div>
+        <div class="cat-card" onclick="navigate('shop','Accessories')">
+          <img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=600&q=80" alt="Accessories" loading="lazy"/>
+          <div class="cat-overlay"><span>Footwear, caps & more</span><h3>Accessories</h3></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Community <em>favourites</em></h2>
+          <p class="section-sub">The most-loved essentials, trusted by healthcare professionals across India.</p>
+        </div>
+        <a class="view-all" onclick="navigate('shop')" href="#">
+          Shop all
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="product-grid" id="homeProducts"></div>
+    </div>
+  </section>
+
+  <!-- FEATURE BAND -->
+  <div class="feature-band">
+    <div class="feature-band-content">
+      <span class="eyebrow">THE TRADE MEDS DIFFERENCE</span>
+      <h2>Made for long shifts.<br/><em>Designed for real life.</em></h2>
+      <p>Functional details, considered fits, comfortable fabrics — so you can focus on what matters most. Every garment is tested through long shifts, washings, and real hospital environments.</p>
+      <button class="btn btn-white" onclick="navigate('shop')">Find your everyday uniform</button>
+    </div>
+    <div class="feature-band-img">
+      <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1100&q=85" alt="Healthcare professional"/>
+    </div>
+  </div>
+
+  <!-- TRUST BADGES -->
+  <section class="section">
+    <div class="container">
+      <div class="trust-row">
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div><h4>Thoughtful design</h4><p>Details that make your working day easier and more comfortable.</p></div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div><h4>Free delivery & COD</h4><p>Free shipping on orders above ₹1,999. Cash on delivery available.</p></div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          </div>
+          <div><h4>Easy returns</h4><p>7-day hassle-free return and exchange policy on all products.</p></div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div><h4>Secure payments</h4><p>UPI, Cards, Net Banking, and COD — all secured and encrypted.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTITUTIONS -->
+  <section class="section-sm section-alt">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:1.5rem">
+        <div><h2>Institutions we have <em>served</em></h2><p class="section-sub">We've suited up the best medical teams in India.</p></div>
+      </div>
+      <div class="logos-track">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Apollo_Hospitals_logo.svg/320px-Apollo_Hospitals_logo.svg.png" alt="Apollo Hospitals"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Fortis_Healthcare_logo.png" alt="Fortis Healthcare"/>
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e1/Narayana_Health_logo.svg/320px-Narayana_Health_logo.svg.png" alt="Narayana Health"/>
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5b/Manipal_Hospitals_logo.svg/320px-Manipal_Hospitals_logo.svg.png" alt="Manipal Hospitals"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Kokilaben_Dhirubhai_Ambani_Hospital_Logo.svg/320px-Kokilaben_Dhirubhai_Ambani_Hospital_Logo.svg.png" alt="Kokilaben Hospital"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/AIIMS_Delhi_logo.png/200px-AIIMS_Delhi_logo.png" alt="AIIMS Delhi"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Worn and <em>loved</em></h2>
+          <p class="section-sub">Over 10,000 five-star reviews from healthcare professionals.</p>
+        </div>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="testimonial-text">"Absolutely love these scrubs! Been wearing them for 12-hour shifts in the ICU. The fabric is breathable, the pockets are deep, and they still look crisp at the end of the day."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=80&q=80" alt="Dr. Priya"/></div>
+            <div><div class="testimonial-name">Dr. Priya Sharma</div><div class="testimonial-role">Intensivist, Apollo Hospitals</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="testimonial-text">"Finally a lab coat that fits properly! The fabric quality is excellent, and the fact that it doesn't wrinkle makes it perfect for long OPD days. Ordered two more for my team."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar"><img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=80&q=80" alt="Dr. Rahul"/></div>
+            <div><div class="testimonial-name">Dr. Rahul Mehta</div><div class="testimonial-role">Senior Resident, AIIMS Delhi</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="testimonial-text">"The 6sense stethoscope is a game changer. Crystal clear acoustics, beautiful finish, and the carrying case is a lovely bonus. So much better than what I was using before."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar"><img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=80&q=80" alt="Dr. Ananya"/></div>
+            <div><div class="testimonial-name">Dr. Ananya Krishnan</div><div class="testimonial-role">Paediatrician, Narayana Health</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IN THE NEWS -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <div><h2>In the <em>news</em></h2></div>
+      </div>
+      <div class="news-grid">
+        <div class="news-card">
+          <div class="news-card-img"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80" alt="News" loading="lazy"/></div>
+          <div class="news-card-body">
+            <span class="news-source">TIMES OF INDIA</span>
+            <h4>How technology is democratising healthcare apparel in India</h4>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-card-img"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&w=600&q=80" alt="News" loading="lazy"/></div>
+          <div class="news-card-body">
+            <span class="news-source">ECONOMIC TIMES</span>
+            <h4>The evolution of medical apparel — from utility to identity</h4>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-card-img"><img src="https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=600&q=80" alt="News" loading="lazy"/></div>
+          <div class="news-card-body">
+            <span class="news-source">FORBES INDIA</span>
+            <h4>Trade Meds: Building the Nike of medical professionals in India</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand" style="color:#fff">
+            <div class="brand-icon">T</div>
+            <span>TRADE <b>MEDS</b><small>CARE IN EVERY DETAIL</small></span>
+          </div>
+          <p>Premium medical apparel for healthcare professionals across India. Comfort, function, and care in every detail.</p>
+          <div class="social-row">
+            <a class="social-btn" href="#" title="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a class="social-btn" href="#" title="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a class="social-btn" href="#" title="Twitter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>SHOP</h5>
+          <a onclick="navigate('shop','Women')">Women's Scrubs</a>
+          <a onclick="navigate('shop','Men')">Men's Scrubs</a>
+          <a onclick="navigate('shop','Lab Coats')">Lab Coats</a>
+          <a onclick="navigate('shop','Stethoscopes')">Stethoscopes</a>
+          <a onclick="navigate('shop','Accessories')">Footwear & Clogs</a>
+          <a onclick="navigate('shop')">Bestsellers</a>
+        </div>
+        <div class="footer-col">
+          <h5>COMPANY</h5>
+          <a href="#">About Us</a>
+          <a href="#">FAQs</a>
+          <a href="#">Bulk Orders</a>
+          <a href="#">Store Locator</a>
+          <a href="#">Careers</a>
+        </div>
+        <div class="footer-col">
+          <h5>SUPPORT</h5>
+          <a href="#">Contact Us</a>
+          <a href="#">Shipping & Delivery</a>
+          <a href="#">Returns & Exchanges</a>
+          <a href="#">Size Guide</a>
+          <a href="#">Track Order</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Trade Meds Apparel Pvt. Ltd. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
+          <a href="#">Return Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== SHOP PAGE ===== -->
+<div class="page" id="page-shop">
+  <div class="page-hero">
+    <h1 id="shopTitle">All Products</h1>
+    <p>Comfort, function, and care — in every garment.</p>
+  </div>
+  <div class="container" style="padding-top:2rem;padding-bottom:4rem">
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="product-grid" id="shopProducts"></div>
+  </div>
+</div>
+
+<!-- ===== PRODUCT DETAIL PAGE ===== -->
+<div class="page" id="page-product">
+  <div class="container" style="padding-top:1.5rem;padding-bottom:4rem">
+    <div class="breadcrumb" id="pdpBreadcrumb"></div>
+    <div class="product-detail" id="pdpContent"></div>
+    <!-- Related products -->
+    <div style="margin-top:4rem">
+      <div class="section-head" style="margin-bottom:1.5rem">
+        <h2>You might also <em>like</em></h2>
+        <a class="view-all" onclick="navigate('shop')" href="#">View all</a>
+      </div>
+      <div class="product-grid" id="relatedProducts"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CART PAGE ===== -->
+<div class="page" id="page-cart">
+  <div class="page-hero">
+    <h1>Shopping Bag</h1>
+    <p>Your selected items — almost there.</p>
+  </div>
+  <div class="container" style="padding-top:2rem;padding-bottom:4rem">
+    <div id="cartContent"></div>
+  </div>
+</div>
+
+<!-- ===== CHECKOUT PAGE ===== -->
+<div class="page" id="page-checkout">
+  <div class="page-hero">
+    <h1>Checkout</h1>
+    <p>Secure checkout — your data is fully encrypted.</p>
+  </div>
+  <div class="container" style="padding-top:2rem;padding-bottom:4rem">
+    <div class="checkout-layout">
+      <div>
+        <!-- Shipping info -->
+        <div class="checkout-form">
+          <h3>Shipping Information</h3>
+          <div class="form-grid">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Rahul"/></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"/></div>
+            <div class="form-group full"><label>Email Address</label><input type="email" placeholder="rahul@hospital.com"/></div>
+            <div class="form-group full"><label>Phone Number</label><input type="tel" placeholder="+91 98765 43210"/></div>
+            <div class="form-group full"><label>Address Line 1</label><input type="text" placeholder="Building, Street"/></div>
+            <div class="form-group full"><label>Address Line 2</label><input type="text" placeholder="Area, Landmark (optional)"/></div>
+            <div class="form-group"><label>City</label><input type="text" placeholder="Mumbai"/></div>
+            <div class="form-group"><label>State</label>
+              <select>
+                <option>Maharashtra</option><option>Tamil Nadu</option><option>Karnataka</option><option>Delhi</option><option>Gujarat</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>West Bengal</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label>PIN Code</label><input type="text" placeholder="400018"/></div>
+          </div>
+        </div>
+        <!-- Payment -->
+        <div class="checkout-form" style="margin-top:1.5rem">
+          <h3>Payment Method</h3>
+          <div class="payment-options">
+            <div class="pay-option selected" onclick="selectPay(this)">
+              <div class="pay-radio"></div>
+              <span class="pay-label">UPI Payment</span>
+              <div class="pay-icons"><span class="pay-icon">GPay</span><span class="pay-icon">PhonePe</span><span class="pay-icon">Paytm</span></div>
+            </div>
+            <div class="pay-option" onclick="selectPay(this)">
+              <div class="pay-radio"></div>
+              <span class="pay-label">Credit / Debit Card</span>
+              <div class="pay-icons"><span class="pay-icon">VISA</span><span class="pay-icon">MC</span><span class="pay-icon">RuPay</span></div>
+            </div>
+            <div class="pay-option" onclick="selectPay(this)">
+              <div class="pay-radio"></div>
+              <span class="pay-label">Net Banking</span>
+              <div class="pay-icons"><span class="pay-icon">SBI</span><span class="pay-icon">HDFC</span><span class="pay-icon">ICICI</span></div>
+            </div>
+            <div class="pay-option" onclick="selectPay(this)">
+              <div class="pay-radio"></div>
+              <span class="pay-label">Cash on Delivery (COD)</span>
+              <div class="pay-icons"><span class="pay-icon" style="background:#d1fae5;color:#065f46">Free</span></div>
+            </div>
+            <div class="pay-option" onclick="selectPay(this)">
+              <div class="pay-radio"></div>
+              <span class="pay-label">EMI (0% for 3 months)</span>
+              <div class="pay-icons"><span class="pay-icon">Bajaj</span><span class="pay-icon">ZestMoney</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div>
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div id="checkoutSummaryItems"></div>
+          <hr class="summary-divider"/>
+          <div class="summary-row"><span>Subtotal</span><b id="coSubtotal">₹0</b></div>
+          <div class="summary-row"><span>Shipping</span><b id="coShipping">Free</b></div>
+          <div class="summary-row"><span>Discount (FLASH12)</span><b style="color:var(--green)" id="coDiscount">— ₹0</b></div>
+          <hr class="summary-divider"/>
+          <div class="summary-total"><span>Total</span><b id="coTotal">₹0</b></div>
+          <button class="btn btn-primary btn-full btn-lg" onclick="placeOrder()">
+            Place Order
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <p style="font-size:.75rem;color:var(--text-light);text-align:center;margin-top:.8rem">
+            By placing your order, you agree to our Terms & Conditions and Return Policy.
+          </p>
+          <div style="display:flex;align-items:center;gap:.4rem;justify-content:center;margin-top:.8rem;font-size:.78rem;color:var(--text-light)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Secured with 256-bit SSL encryption
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SUCCESS PAGE ===== -->
+<div class="page" id="page-success">
+  <div class="container">
+    <div class="success-box">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <h2>Order Placed!</h2>
+      <p>Thank you for your order. We'll send you a confirmation email and SMS shortly. Your order will be dispatched within 24 hours.</p>
+      <div class="order-id">
+        <strong>Order ID:</strong> TM-<span id="orderIdDisplay">000000</span><br/>
+        <strong>Estimated delivery:</strong> 3–5 business days
+      </div>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="navigate('home')">Continue Shopping</button>
+        <button class="btn btn-outline" onclick="navigate('shop')">View More Products</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== WISHLIST PAGE ===== -->
+<div class="page" id="page-wishlist">
+  <div class="page-hero"><h1>Your Wishlist</h1><p>Saved items you love.</p></div>
+  <div class="container" style="padding-top:2rem;padding-bottom:4rem">
+    <div id="wishlistContent"></div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const products = [
+  { id:1, name:"Classic Women's V-Neck Scrub", category:"Women", line:"Classic", price:1099, oldPrice:1399, image:"https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=900&q=85"], rating:4.8, reviews:2341, colors:["Navy","Wine","Black","Sage","Forest Green"], sizes:["XS","S","M","L","XL","2XL"], badge:"Bestseller", desc:"Our most-loved scrub top. Designed with 3 functional pockets, a flattering V-neck, and anti-wrinkle fabric that holds up after hundreds of washes. The polyester-viscose blend keeps you cool on long shifts." },
+  { id:2, name:"Classic Men's V-Neck Scrub", category:"Men", line:"Classic", price:1099, oldPrice:1399, image:"https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85"], rating:4.8, reviews:1987, colors:["Navy","Wine","Black","Heather Grey","Forest Green"], sizes:["S","M","L","XL","2XL","3XL"], badge:"Bestseller", desc:"Built for comfort through the longest shifts. 5-pocket design including a chest pocket, side pockets, and cargo pocket. Anti-microbial fabric keeps you fresh from ward to ward." },
+  { id:3, name:"Women's Classic Lab Coat", category:"Lab Coats", line:"Chief", price:1699, oldPrice:2199, image:"https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=900&q=85"], rating:4.7, reviews:892, colors:["White"], sizes:["XS","S","M","L","XL"], badge:"New", desc:"The Chief Lab Coat — command attention with this distinguished design. Full-length with four functional pockets, button closure, and a tailored fit designed for the busy OPD or ward rounds." },
+  { id:4, name:"Men's Chief Lab Coat", category:"Lab Coats", line:"Chief", price:1699, image:"https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85"], rating:4.9, reviews:1120, colors:["White"], sizes:["S","M","L","XL","2XL"], desc:"Full-length lab coat with 4 deep pockets. Wrinkle-resistant polyester that stays sharp through a full day of rounds." },
+  { id:5, name:"ecoflex™ Women's V-Neck Scrub", category:"Women", line:"ecoflex", price:2499, image:"https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85"], rating:4.9, reviews:756, colors:["Navy","Wine","Steel Grey","Mauve","Black"], sizes:["XS","S","M","L","XL","2XL"], badge:"Popular", desc:"Our premium 4-way stretch scrub. Made from eco-friendly recycled PET bottles — each scrub recycles 6 plastic bottles. Super flexible, anti-wrinkle, lightweight, and engineered for maximum airflow." },
+  { id:6, name:"ecoflex™ Men's V-Neck Scrub", category:"Men", line:"ecoflex", price:2499, image:"https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1612531386530-97286d97c2d2?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=85"], rating:4.8, reviews:623, colors:["Navy","Wine","Steel Grey","Black","Forest Green"], sizes:["S","M","L","XL","2XL","3XL"], desc:"Premium ecoflex™ scrub with 4-way stretch fabric. Sustainable, flexible, and built for maximum comfort during the most demanding shifts." },
+  { id:7, name:"6sense Stethoscope — All Black", category:"Stethoscopes", line:"6sense", price:2599, image:"https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=85","https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85"], rating:4.8, reviews:1456, colors:["All Black","Rosegold Black","Steel Black","Steel Maroon"], sizes:["Standard"], badge:"Bestseller", desc:"High-precision stethoscope. Lets you hear every heartbeat with crystal clarity. 30-day free trial. Ergonomic design with an angled chest piece for optimal acoustic performance." },
+  { id:8, name:"6sense Lite Stethoscope", category:"Stethoscopes", line:"6sense Lite", price:1899, image:"https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85"], rating:4.7, reviews:987, colors:["Steel Black","Steel Maroon","Steel Navy"], sizes:["Standard"], desc:"Light in weight, more affordable. Perfect for students and junior doctors. 15-day free trial included. Same acoustic precision, lighter on your pocket." },
+  { id:9, name:"Underscrub — Long Sleeve", category:"Accessories", line:"Underscrubs", price:699, image:"https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85"], rating:4.6, reviews:432, colors:["White","Heather Grey"], sizes:["XS","S","M","L","XL"], desc:"Supersoft Pima cotton underscrub. Wear it under your scrubs for extra warmth and coverage. Breathable, tagless, and designed to lay flat under your scrub top." },
+  { id:10, name:"DRIFT Medical Jacket", category:"Accessories", line:"Drift", price:3499, image:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85"], rating:4.9, reviews:234, colors:["Navy","Black","Heather Grey"], sizes:["S","M","L","XL","2XL"], badge:"New", desc:"The DRIFT jacket — purpose-built for medical professionals. Lightweight, water-resistant outer shell with 6 functional pockets. Designed for comfort between the ward and the break room." },
+  { id:11, name:"ecoflex™ Lite Women's Scrub", category:"Women", line:"ecoflex lite", price:1799, image:"https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=85"], rating:4.7, reviews:345, colors:["Navy","Sage","Mauve","Black"], sizes:["XS","S","M","L","XL"], desc:"2-way stretch fabric. Dynamic flexibility, ultra-light and breathable. Comfort that lasts all shift long." },
+  { id:12, name:"Scrub Cap — Classic", category:"Accessories", line:"Caps", price:349, image:"https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85", images:["https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85"], rating:4.5, reviews:789, colors:["Navy","Wine","Black","Teal","Sage"], sizes:["Free Size"], desc:"Soft, breathable scrub cap. Secure fit with adjustable tie. Washable and long-lasting. Available in classic plain and designer printed styles." },
+];
+
+// ===================== STATE =====================
+let cart = JSON.parse(localStorage.getItem('tm_cart') || '[]');
+let wishlist = JSON.parse(localStorage.getItem('tm_wishlist') || '[]');
+let currentPage = 'home';
+let currentCategory = '';
+let currentProductId = null;
+
+// ===================== SAVE STATE =====================
+function saveCart() {
+  try { localStorage.setItem('tm_cart', JSON.stringify(cart)); } catch(e) {}
+  updateBadges();
+}
+function saveWishlist() {
+  try { localStorage.setItem('tm_wishlist', JSON.stringify(wishlist)); } catch(e) {}
+  updateBadges();
+}
+
+// ===================== BADGES =====================
+function updateBadges() {
+  const cartCount = cart.reduce((s,i) => s+i.qty, 0);
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = cartCount;
+  badge.style.display = cartCount ? 'flex' : 'none';
+  const wBadge = document.getElementById('wishlistBadge');
+  wBadge.textContent = wishlist.length;
+  wBadge.style.display = wishlist.length ? 'flex' : 'none';
+}
+
+// ===================== TOAST =====================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ===================== NAVIGATION =====================
+function navigate(page, category, productId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  currentPage = page;
+  window.scrollTo(0, 0);
+
+  if (page === 'home') renderHomeProducts();
+  if (page === 'shop') {
+    currentCategory = category || '';
+    renderShop(currentCategory);
+  }
+  if (page === 'product' && productId) {
+    currentProductId = productId;
+    renderProductDetail(productId);
+  }
+  if (page === 'cart') renderCart();
+  if (page === 'checkout') renderCheckout();
+  if (page === 'wishlist') renderWishlist();
+}
+
+// ===================== PRODUCT CARD HTML =====================
+function productCardHTML(p, showQuickAdd) {
+  const inWishlist = wishlist.includes(p.id);
+  const badge = p.badge ? `<div class="product-badge ${p.badge==='Bestseller'?'badge-best':p.badge==='New'?'badge-new':'badge-sale'}">${p.badge}</div>` : '';
+  const swatches = (p.colors||[]).slice(0,5).map(c => `<div class="swatch" title="${c}" style="background:${colorHex(c)}"></div>`).join('');
+  const save = p.oldPrice ? ` <span class="product-price-old">₹${p.oldPrice.toLocaleString('en-IN')}</span>` : '';
+  const qAdd = showQuickAdd !== false ? `<div class="quick-add" onclick="event.stopPropagation();addToCart(${p.id})">Add to Bag</div>` : '';
+  return `
+  <div class="product-card" onclick="navigate('product','',${p.id})">
+    <div class="product-img">
+      <img src="${p.image}" alt="${p.name}" loading="lazy"/>
+      ${badge}
+      <div class="wishlist-btn ${inWishlist?'active':''}" onclick="event.stopPropagation();toggleWishlist(${p.id},this)" title="${inWishlist?'Remove from wishlist':'Save to wishlist'}">
+        <svg viewBox="0 0 24 24" fill="${inWishlist?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      ${qAdd}
+    </div>
+    <div class="product-info">
+      <div class="product-cat">${p.category}${p.line?' · '+p.line:''}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-rating">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        ${p.rating} <span style="opacity:.6">(${p.reviews?.toLocaleString('en-IN')||''})</span>
+      </div>
+      <div class="product-price-row">
+        <span class="product-price">₹${p.price.toLocaleString('en-IN')}</span>${save}
+      </div>
+      <div class="product-swatches">${swatches}</div>
+    </div>
+  </div>`;
+}
+
+function colorHex(name) {
+  const map = { 'Navy':'#1e3a5f','Wine':'#722f37','Black':'#1a1a1a','Sage':'#8fad88','Forest Green':'#228b22','Heather Grey':'#8e8e8e','Steel Grey':'#7a8a9a','Mauve':'#c3789b','Teal':'#2b8a8a','White':'#f5f5f5','All Black':'#111','Rosegold Black':'#b87333','Steel Black':'#3a3a3a','Steel Maroon':'#7b2d42','Steel Navy':'#1b3a6a' };
+  return map[name] || '#666';
+}
+
+// ===================== HOME =====================
+function renderHomeProducts() {
+  const el = document.getElementById('homeProducts');
+  if (!el) return;
+  el.innerHTML = products.slice(0,4).map(p => productCardHTML(p)).join('');
+}
+
+// ===================== SHOP =====================
+function renderShop(category) {
+  const title = document.getElementById('shopTitle');
+  if (title) title.textContent = category ? category + (category==='Women'?'\'s Scrubs':category==='Men'?'\'s Scrubs':category==='Stethoscopes'?'':' Collection') : 'All Products';
+
+  // Filters
+  const cats = ['All', 'Women', 'Men', 'Lab Coats', 'Stethoscopes', 'Accessories'];
+  const fb = document.getElementById('filterBar');
+  if (fb) {
+    fb.innerHTML = cats.map(c => `<div class="filter-pill ${(category===c||(c==='All'&&!category))?'active':''}" onclick="navigate('shop','${c==='All'?'':c}')">${c}</div>`).join('') +
+      `<span class="filter-count">${filtered(category).length} products</span>`;
+  }
+
+  const el = document.getElementById('shopProducts');
+  if (el) el.innerHTML = filtered(category).map(p => productCardHTML(p)).join('') || '<div class="empty-state"><h3>No products found</h3><p>Try a different category.</p></div>';
+}
+
+function filtered(category) {
+  if (!category) return products;
+  return products.filter(p => p.category === category);
+}
+
+// ===================== PRODUCT DETAIL =====================
+function renderProductDetail(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+
+  // Breadcrumb
+  const bc = document.getElementById('pdpBreadcrumb');
+  if (bc) bc.innerHTML = `<a onclick="navigate('home')" href="#">Home</a><span>›</span><a onclick="navigate('shop','${p.category}')" href="#">${p.category}</a><span>›</span><span>${p.name}</span>`;
+
+  const imgs = p.images || [p.image];
+  const thumbsHTML = imgs.map((img,i) => `<div class="pdp-thumb ${i===0?'active':''}" onclick="switchImage('${img}',this)"><img src="${img}" alt="${p.name} ${i+1}" loading="lazy"/></div>`).join('');
+
+  const colorsHTML = (p.colors||[]).map((c,i) => `<button class="color-btn ${i===0?'active':''}" onclick="selectColor(this,'${c}')">${c}</button>`).join('');
+  const sizesHTML = (p.sizes||[]).map((s,i) => `<button class="size-btn" onclick="selectSize(this,'${s}')">${s}</button>`).join('');
+
+  const save = p.oldPrice ? `<span class="pdp-price-old">₹${p.oldPrice.toLocaleString('en-IN')}</span><span class="pdp-price-save">Save ₹${(p.oldPrice-p.price).toLocaleString('en-IN')}</span>` : '';
+  const badge = p.badge ? `<span style="background:var(--navy);color:#fff;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;margin-right:.5rem">${p.badge}</span>` : '';
+
+  document.getElementById('pdpContent').innerHTML = `
+  <div class="pdp-gallery">
+    <div class="pdp-main-img" id="pdpMainImg"><img src="${imgs[0]}" alt="${p.name}" id="pdpMainImgEl"/></div>
+    <div class="pdp-thumbs">${thumbsHTML}</div>
+  </div>
+  <div class="pdp-info">
+    <span class="pdp-eyebrow">${p.category.toUpperCase()}${p.line?' · '+p.line.toUpperCase():''}</span>
+    <h1>${p.name}</h1>
+    <div class="pdp-rating">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      ${p.rating} <span style="color:var(--text-light)">&nbsp;(${p.reviews?.toLocaleString('en-IN')} reviews)</span>
+      &nbsp;${badge}
+    </div>
+    <div class="pdp-price-row">
+      <span class="pdp-price">₹${p.price.toLocaleString('en-IN')}</span>
+      ${save}
+    </div>
+    <p class="pdp-desc">${p.desc}</p>
+    <label class="pdp-label">Colour</label>
+    <div class="pdp-colors">${colorsHTML}</div>
+    <label class="pdp-label">Select size &nbsp;<a href="#" style="font-weight:400;color:var(--blue);font-size:.78rem">Size guide</a></label>
+    <div class="pdp-sizes">${sizesHTML}</div>
+    <label class="pdp-label">Quantity</label>
+    <div class="pdp-qty">
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input class="qty-val" type="number" value="1" min="1" max="10" id="pdpQty"/>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <div class="pdp-actions">
+      <button class="btn btn-primary btn-lg" style="flex:1" onclick="addToCartFromPDP(${p.id})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Bag
+      </button>
+      <button class="btn btn-outline" onclick="toggleWishlistFromPDP(${p.id},this)" id="pdpWishlistBtn">
+        <svg viewBox="0 0 24 24" fill="${wishlist.includes(p.id)?'currentColor':'none'}" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+    </div>
+    <div class="pdp-perks">
+      <div class="pdp-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Free delivery on orders above ₹1,999</div>
+      <div class="pdp-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 7-day easy returns & exchanges</div>
+      <div class="pdp-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Cash on delivery available</div>
+      <div class="pdp-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Genuine product guaranteed</div>
+    </div>
+  </div>`;
+
+  // Related
+  const related = products.filter(x => x.category === p.category && x.id !== p.id).slice(0,4);
+  const relEl = document.getElementById('relatedProducts');
+  if (relEl) relEl.innerHTML = related.map(r => productCardHTML(r)).join('');
+}
+
+function switchImage(src, el) {
+  document.getElementById('pdpMainImgEl').src = src;
+  document.querySelectorAll('.pdp-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectColor(el) { document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
+function selectSize(el) { document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
+function changeQty(d) {
+  const inp = document.getElementById('pdpQty');
+  if (!inp) return;
+  inp.value = Math.max(1, Math.min(10, (parseInt(inp.value)||1) + d));
+}
+
+// ===================== CART ACTIONS =====================
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const existing = cart.find(i => i.id === id);
+  if (existing) existing.qty += 1;
+  else cart.push({ id, qty:1 });
+  saveCart();
+  showToast(`${p.name} added to bag`);
+}
+
+function addToCartFromPDP(id) {
+  const qty = parseInt(document.getElementById('pdpQty')?.value || 1);
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const existing = cart.find(i => i.id === id);
+  if (existing) existing.qty += qty;
+  else cart.push({ id, qty });
+  saveCart();
+  showToast(`Added to bag!`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function changeCartQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  saveCart();
+  renderCart();
+}
+
+function toggleWishlist(id, el) {
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(x => x !== id);
+    if (el) { el.classList.remove('active'); el.querySelector('svg').setAttribute('fill','none'); }
+    showToast('Removed from wishlist');
+  } else {
+    wishlist.push(id);
+    if (el) { el.classList.add('active'); el.querySelector('svg').setAttribute('fill','currentColor'); }
+    showToast('Saved to wishlist');
+  }
+  saveWishlist();
+}
+
+function toggleWishlistFromPDP(id, el) {
+  toggleWishlist(id, null);
+  const inW = wishlist.includes(id);
+  el.querySelector('svg').setAttribute('fill', inW ? 'currentColor' : 'none');
+}
+
+// ===================== RENDER CART =====================
+function renderCart() {
+  const el = document.getElementById('cartContent');
+  if (!el) return;
+  if (cart.length === 0) {
+    el.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64" style="margin:0 auto;color:var(--text-light)"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <h3>Your bag is empty</h3>
+      <p>Looks like you haven't added anything yet.</p>
+      <button class="btn btn-primary" onclick="navigate('shop')">Continue Shopping</button>
+    </div>`;
+    return;
+  }
+  const subtotal = cart.reduce((s,i) => s + products.find(p => p.id===i.id).price * i.qty, 0);
+  const shipping = subtotal >= 1999 ? 0 : 99;
+  const itemsHTML = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    if (!p) return '';
+    return `<div class="cart-item">
+      <div class="cart-item-img"><img src="${p.image}" alt="${p.name}" loading="lazy"/></div>
+      <div>
+        <div class="cart-item-name">${p.name}</div>
+        <div class="cart-item-meta">${p.category}</div>
+        <div class="cart-item-price">₹${p.price.toLocaleString('en-IN')}</div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeCartQty(${p.id},-1)">−</button>
+            <input class="qty-val" type="number" value="${item.qty}" min="1" max="10" readonly style="pointer-events:none"/>
+            <button class="qty-btn" onclick="changeCartQty(${p.id},1)">+</button>
+          </div>
+          <span class="cart-remove" onclick="removeFromCart(${p.id})">Remove</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `<div class="cart-layout">
+    <div>
+      <h2 style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:1.2rem">${cart.reduce((s,i)=>s+i.qty,0)} item${cart.reduce((s,i)=>s+i.qty,0)!==1?'s':''} in your bag</h2>
+      <div class="cart-items">${itemsHTML}</div>
+    </div>
+    <div>
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-row"><span>Subtotal (${cart.reduce((s,i)=>s+i.qty,0)} items)</span><b>₹${subtotal.toLocaleString('en-IN')}</b></div>
+        <div class="summary-row"><span>Shipping</span><b>${shipping === 0 ? '<span style="color:var(--green)">Free</span>' : '₹'+shipping}</b></div>
+        ${shipping > 0 ? `<div style="font-size:.78rem;color:var(--blue);margin-bottom:.5rem">Add ₹${(1999-subtotal).toLocaleString('en-IN')} more for free shipping!</div>` : ''}
+        <hr class="summary-divider"/>
+        <div class="summary-total"><span>Total</span><b>₹${(subtotal+shipping).toLocaleString('en-IN')}</b></div>
+        <div class="coupon-row"><input type="text" placeholder="Enter coupon code" id="couponInput"/><button onclick="applyCoupon()">Apply</button></div>
+        <button class="btn btn-primary btn-full" onclick="navigate('checkout')">
+          Proceed to Checkout
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn btn-outline btn-full" style="margin-top:.6rem" onclick="navigate('shop')">Continue Shopping</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function applyCoupon() {
+  const v = document.getElementById('couponInput')?.value?.toUpperCase();
+  if (v === 'FLASH12') showToast('Coupon FLASH12 applied — 12% off!');
+  else showToast('Invalid coupon code');
+}
+
+// ===================== RENDER CHECKOUT =====================
+function renderCheckout() {
+  const subtotal = cart.reduce((s,i) => s + products.find(p => p.id===i.id).price * i.qty, 0);
+  const discount = Math.round(subtotal * 0.12);
+  const shipping = subtotal >= 1999 ? 0 : 99;
+  const total = subtotal - discount + shipping;
+
+  const itemsEl = document.getElementById('checkoutSummaryItems');
+  if (itemsEl) itemsEl.innerHTML = cart.map(item => {
+    const p = products.find(x => x.id===item.id);
+    return `<div class="summary-row" style="margin-bottom:.5rem"><span style="font-size:.82rem">${p.name} × ${item.qty}</span><b style="font-size:.82rem">₹${(p.price*item.qty).toLocaleString('en-IN')}</b></div>`;
+  }).join('');
+
+  const sub = document.getElementById('coSubtotal'); if (sub) sub.textContent = '₹' + subtotal.toLocaleString('en-IN');
+  const shp = document.getElementById('coShipping'); if (shp) shp.textContent = shipping === 0 ? 'Free' : '₹' + shipping;
+  const disc = document.getElementById('coDiscount'); if (disc) disc.textContent = '— ₹' + discount.toLocaleString('en-IN');
+  const tot = document.getElementById('coTotal'); if (tot) tot.textContent = '₹' + total.toLocaleString('en-IN');
+}
+
+function selectPay(el) {
+  document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function placeOrder() {
+  const orderId = Math.floor(Math.random() * 900000 + 100000).toString();
+  document.getElementById('orderIdDisplay').textContent = orderId;
+  cart = [];
+  saveCart();
+  navigate('success');
+}
+
+// ===================== WISHLIST =====================
+function renderWishlist() {
+  const el = document.getElementById('wishlistContent');
+  if (!el) return;
+  if (wishlist.length === 0) {
+    el.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64" style="margin:0 auto;color:var(--text-light)"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <h3>Your wishlist is empty</h3>
+      <p>Save products you love for later.</p>
+      <button class="btn btn-primary" onclick="navigate('shop')">Browse Products</button>
+    </div>`;
+    return;
+  }
+  el.innerHTML = `<div class="product-grid">${products.filter(p => wishlist.includes(p.id)).map(p => productCardHTML(p)).join('')}</div>`;
+}
+
+// ===================== SEARCH =====================
+function toggleSearch() {
+  const p = document.getElementById('searchPanel');
+  p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+  if (p.style.display === 'flex') document.getElementById('searchInput')?.focus();
+}
+function handleSearch(val) {
+  if (val.length > 1) navigate('shop');
+}
+
+// ===================== MOBILE NAV =====================
+function closeMobileNav(e) {
+  if (e.target === document.getElementById('mobileNav')) document.getElementById('mobileNav').classList.remove('open');
+}
+function closeMobileNavPanel() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+
+// ===================== INIT =====================
+renderHomeProducts();
+updateBadges();
+</script>
+</body>
+</html>
