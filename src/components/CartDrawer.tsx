@@ -1,4 +1,5 @@
 import React from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Minus, Plus, ShoppingBag, Trash2, Truck, X } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import { PRODUCTS } from '../data/catalog';
@@ -17,20 +18,30 @@ export function CartDrawer() {
     navigate,
   } = useStore();
 
-  if (!isCartDrawerOpen) return null;
-
   const freeShippingThreshold = 1999;
   const remaining = Math.max(0, freeShippingThreshold - cartSubtotal);
   const progress = Math.min(100, Math.round((cartSubtotal / freeShippingThreshold) * 100));
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
-      <div
-        className="fixed inset-0 bg-black/45 backdrop-blur-[1px]"
-        onClick={() => setCartDrawerOpen(false)}
-      />
+    <AnimatePresence>
+      {isCartDrawerOpen && (
+        <div className="fixed inset-0 z-50 flex justify-end">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 bg-black/45 backdrop-blur-[1px]"
+            onClick={() => setCartDrawerOpen(false)}
+          />
 
-      <aside className="relative bg-white w-full max-w-md h-full flex flex-col shadow-2xl z-10">
+          <motion.aside
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="relative bg-white w-full max-w-md h-full flex flex-col shadow-2xl z-10"
+          >
         {/* Drawer Header */}
         <div className="px-6 py-4 border-b border-[#E2E8F0] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -94,18 +105,20 @@ export function CartDrawer() {
               {cart.map((item) => {
                 const product = PRODUCTS.find((p) => p.id === item.productId);
                 if (!product) return null;
+                const itemImg =
+                  product.colors.find((c) => c.name === item.color)?.image || product.image;
                 return (
                   <div key={item.key} className="py-4 flex gap-4">
                     <button
                       type="button"
                       onClick={() => {
                         setCartDrawerOpen(false);
-                        navigate('product', { productId: product.id });
+                        navigate('product', { productId: product.id, color: item.color });
                       }}
                       className="w-20 aspect-[3/4] rounded-lg overflow-hidden bg-[#F1F5F9] shrink-0"
                     >
                       <ResilientImage
-                        src={product.image}
+                        src={itemImg}
                         alt={product.name}
                         className="w-full h-full object-cover"
                       />
@@ -219,7 +232,9 @@ export function CartDrawer() {
             </div>
           </div>
         )}
-      </aside>
-    </div>
+          </motion.aside>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

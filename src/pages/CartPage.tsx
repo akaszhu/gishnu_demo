@@ -92,6 +92,8 @@ export function CartPage() {
               {cart.map((item) => {
                 const product = PRODUCTS.find((p) => p.id === item.productId);
                 if (!product) return null;
+                const itemImg =
+                  product.colors.find((c) => c.name === item.color)?.image || product.image;
                 const itemTotal =
                   (product.price + (item.embroidery?.enabled ? 199 : 0)) * item.qty;
 
@@ -102,11 +104,13 @@ export function CartPage() {
                   >
                     <button
                       type="button"
-                      onClick={() => navigate('product', { productId: product.id })}
+                      onClick={() =>
+                        navigate('product', { productId: product.id, color: item.color })
+                      }
                       className="w-24 sm:w-28 aspect-[3/4] rounded-lg overflow-hidden bg-[#F1F5F9] shrink-0"
                     >
                       <ResilientImage
-                        src={product.image}
+                        src={itemImg}
                         alt={product.name}
                         className="w-full h-full object-cover"
                       />

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
+import { BrandLogo } from './BrandLogo';
 
 export function Footer() {
-  const { navigate, setSizeGuideOpen, showToast } = useStore();
+  const { navigate, setSizeGuideOpen, setAssistantOpen, showToast } = useStore();
   const [email, setEmail] = useState('');
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -22,11 +23,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
           {/* Brand Column */}
           <div>
-            <div className="flex items-center gap-2 text-white font-extrabold text-lg mb-4">
-              <span className="w-7 h-7 rounded-md bg-white text-[#0A2540] text-sm font-bold inline-flex items-center justify-center">
-                T
-              </span>
-              <span>TRADE MEDS</span>
+            <div className="mb-4">
+              <BrandLogo variant="light" />
             </div>
             <p className="text-sm leading-relaxed text-[#94A3B8] max-w-xs">
               Clinical apparel and medical essentials engineered in India for doctors, nurses, residents, and medical students.
@@ -99,6 +97,15 @@ export function Footer() {
               <li>
                 <button
                   type="button"
+                  onClick={() => navigate('stores')}
+                  className="hover:text-white transition-colors"
+                >
+                  Offline Store Locator (8 Cities)
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
                   onClick={() => navigate('bulk')}
                   className="hover:text-white transition-colors"
                 >
@@ -112,6 +119,15 @@ export function Footer() {
                   className="hover:text-white transition-colors"
                 >
                   Track Your Order
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setAssistantOpen(true)}
+                  className="hover:text-white transition-colors"
+                >
+                  Care Guide &amp; Match Guard
                 </button>
               </li>
               <li>

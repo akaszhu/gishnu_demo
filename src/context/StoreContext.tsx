@@ -13,9 +13,13 @@ interface StoreContextValue {
   page: RoutePage;
   selectedCategory: CategoryName | '';
   selectedProductId: number;
+  selectedProductColor: string;
   searchQuery: string;
   setSearchQuery: (q: string) => void;
-  navigate: (page: RoutePage, opts?: { category?: CategoryName | ''; productId?: number }) => void;
+  navigate: (
+    page: RoutePage,
+    opts?: { category?: CategoryName | ''; productId?: number; color?: string }
+  ) => void;
 
   cart: CartItem[];
   addToCart: (
@@ -48,6 +52,8 @@ interface StoreContextValue {
   setCartDrawerOpen: (open: boolean) => void;
   isSizeGuideOpen: boolean;
   setSizeGuideOpen: (open: boolean) => void;
+  isAssistantOpen: boolean;
+  setAssistantOpen: (open: boolean) => void;
 
   toastMessage: string | null;
   showToast: (msg: string) => void;
@@ -65,6 +71,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [page, setPage] = useState<RoutePage>('home');
   const [selectedCategory, setSelectedCategory] = useState<CategoryName | ''>('');
   const [selectedProductId, setSelectedProductId] = useState<number>(1);
+  const [selectedProductColor, setSelectedProductColor] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -115,6 +122,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const [isCartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [isSizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [isAssistantOpen, setAssistantOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -169,7 +177,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const navigate = (
     targetPage: RoutePage,
-    opts?: { category?: CategoryName | ''; productId?: number }
+    opts?: { category?: CategoryName | ''; productId?: number; color?: string }
   ) => {
     setPage(targetPage);
     if (opts?.category !== undefined) {
@@ -177,6 +185,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     }
     if (opts?.productId !== undefined) {
       setSelectedProductId(opts.productId);
+      setSelectedProductColor(opts.color || '');
     }
     setCartDrawerOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -336,6 +345,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         page,
         selectedCategory,
         selectedProductId,
+        selectedProductColor,
         searchQuery,
         setSearchQuery,
         navigate,
@@ -362,6 +372,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setCartDrawerOpen,
         isSizeGuideOpen,
         setSizeGuideOpen,
+        isAssistantOpen,
+        setAssistantOpen,
         toastMessage,
         showToast,
       }}

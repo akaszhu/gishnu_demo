@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Ruler, X } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 
@@ -23,15 +24,25 @@ export function SizeGuideModal() {
   const { isSizeGuideOpen, setSizeGuideOpen } = useStore();
   const [unit, setUnit] = useState<'in' | 'cm'>('in');
 
-  if (!isSizeGuideOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-[1px]"
-        onClick={() => setSizeGuideOpen(false)}
-      />
-      <div className="relative bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto">
+    <AnimatePresence>
+      {isSizeGuideOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.16 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-[1px]"
+            onClick={() => setSizeGuideOpen(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 8 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
+          >
         <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB] mb-1">
@@ -117,7 +128,9 @@ export function SizeGuideModal() {
             Need a different fit? Request a free doorstep size swap within 7 days of delivery on all unwashed, non-embroidered garments.
           </p>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

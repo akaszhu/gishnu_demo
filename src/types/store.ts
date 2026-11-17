@@ -17,6 +17,7 @@ export type FabricLine =
 export interface ProductColor {
   name: string;
   hex: string;
+  image?: string;
 }
 
 export interface ProductReview {
@@ -130,4 +131,5 @@ export type RoutePage =
   | 'wishlist'
   | 'account'
   | 'bulk'
-  | 'track';
+  | 'track'
+  | 'stores';

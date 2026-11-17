@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   ChevronDown,
   Heart,
+  MapPin,
   Menu,
   Search,
   ShoppingBag,
@@ -10,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import { CategoryName } from '../types/store';
+import { BrandLogo } from './BrandLogo';
 
 const NAV_LINKS: Array<{
   label: string;
@@ -130,12 +133,9 @@ export function Header() {
                 setSearchQuery('');
                 navigate('home');
               }}
-              className="text-lg sm:text-xl font-extrabold tracking-tight text-[#0A2540] whitespace-nowrap shrink-0 flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-[#2563EB] rounded"
+              className="focus-visible:outline-2 focus-visible:outline-[#2563EB] rounded"
             >
-              <span className="w-7 h-7 rounded-md bg-[#0A2540] text-white text-sm font-bold inline-flex items-center justify-center">
-                T
-              </span>
-              <span>TRADE MEDS</span>
+              <BrandLogo variant="dark" />
             </button>
           </div>
 
@@ -169,31 +169,39 @@ export function Header() {
                     {item.sublinks && <ChevronDown className="w-3.5 h-3.5 opacity-60" />}
                   </button>
 
-                  {item.sublinks && hoveredNav === item.label && (
-                    <div className="absolute left-0 top-full pt-1 w-64 z-50">
-                      <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-lg p-3">
-                        <div className="text-[11px] font-semibold text-[#64748B] px-2.5 py-1.5">
-                          {item.label} Collection
+                  <AnimatePresence>
+                    {item.sublinks && hoveredNav === item.label && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 4 }}
+                        transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute left-0 top-full pt-1 w-64 z-50"
+                      >
+                        <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-lg p-3">
+                          <div className="text-[11px] font-semibold text-[#64748B] px-2.5 py-1.5">
+                            {item.label} Collection
+                          </div>
+                          <div className="flex flex-col gap-0.5">
+                            {item.sublinks.map((sub) => (
+                              <button
+                                key={sub.label}
+                                type="button"
+                                onClick={() => {
+                                  setHoveredNav(null);
+                                  setSearchQuery('');
+                                  navigate('shop', { category: sub.category });
+                                }}
+                                className="text-left px-2.5 py-2 text-sm text-[#334155] hover:bg-[#F1F5F9] hover:text-[#0A2540] rounded-lg transition-colors"
+                              >
+                                {sub.label}
+                              </button>
+                            ))}
+                          </div>
                         </div>
-                        <div className="flex flex-col gap-0.5">
-                          {item.sublinks.map((sub) => (
-                            <button
-                              key={sub.label}
-                              type="button"
-                              onClick={() => {
-                                setHoveredNav(null);
-                                setSearchQuery('');
-                                navigate('shop', { category: sub.category });
-                              }}
-                              className="text-left px-2.5 py-2 text-sm text-[#334155] hover:bg-[#F1F5F9] hover:text-[#0A2540] rounded-lg transition-colors"
-                            >
-                              {sub.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
@@ -208,6 +216,20 @@ export function Header() {
               className="p-2.5 text-[#334155] hover:text-[#0A2540] hover:bg-[#F1F5F9] rounded-lg transition-colors"
             >
               <Search className="w-5 h-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => navigate('stores')}
+              aria-label="Offline store locations"
+              title="Offline Store Locations"
+              className={`p-2.5 rounded-lg transition-colors ${
+                page === 'stores'
+                  ? 'text-[#0A2540] bg-[#F1F5F9]'
+                  : 'text-[#334155] hover:text-[#0A2540] hover:bg-[#F1F5F9]'
+              }`}
+            >
+              <MapPin className="w-5 h-5" />
             </button>
 
             <button
@@ -248,8 +270,15 @@ export function Header() {
         </div>
 
         {/* Search Slide-Down Bar */}
-        {searchOpen && (
-          <div className="bg-white border-b border-[#E2E8F0] px-4 py-3 shadow-sm">
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-white border-b border-[#E2E8F0] px-4 py-3 shadow-sm"
+            >
             <form
               onSubmit={handleSearchSubmit}
               className="max-w-3xl mx-auto flex items-center gap-3"
@@ -287,20 +316,32 @@ export function Header() {
                 <X className="w-4 h-4" />
               </button>
             </form>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Mobile Navigation Drawer */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
-          <div
-            className="fixed inset-0 bg-black/45"
-            onClick={() => setMobileOpen(false)}
-          />
-          <div className="relative bg-white w-80 max-w-[85vw] h-full flex flex-col p-6 overflow-y-auto shadow-2xl">
+      <AnimatePresence>
+        {mobileOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden flex">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="fixed inset-0 bg-black/45"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="relative bg-white w-80 max-w-[85vw] h-full flex flex-col p-6 overflow-y-auto shadow-2xl"
+            >
             <div className="flex items-center justify-between pb-4 border-b border-[#E2E8F0]">
-              <span className="font-extrabold text-lg text-[#0A2540]">TRADE MEDS</span>
+              <BrandLogo variant="dark" />
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -339,6 +380,17 @@ export function Header() {
                 type="button"
                 onClick={() => {
                   setMobileOpen(false);
+                  navigate('stores');
+                }}
+                className="text-left px-3 py-2.5 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F1F5F9] inline-flex items-center gap-2"
+              >
+                <MapPin className="w-4 h-4 text-[#2563EB]" />
+                <span>Offline Store Locations (8 Cities)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
                   navigate('bulk');
                 }}
                 className="text-left px-3 py-2.5 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F1F5F9]"
@@ -366,9 +418,10 @@ export function Header() {
                 Account &amp; Orders
               </button>
             </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 }

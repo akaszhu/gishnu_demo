@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Heart, Plus, Star } from 'lucide-react';
 import { Product } from '../types/store';
 import { useStore } from '../context/StoreContext';
@@ -14,6 +15,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const isSaved = wishlist.includes(product.id);
   const selectedColor = product.colors[activeColorIdx] || product.colors[0];
+  const displayImage = selectedColor?.image || product.image;
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -32,16 +34,29 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <article
-      onClick={() => navigate('product', { productId: product.id })}
+      onClick={() =>
+        navigate('product', { productId: product.id, color: selectedColor?.name })
+      }
       className="group cursor-pointer flex flex-col bg-white rounded-xl border border-[#E2E8F0] overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
     >
       {/* Studio Image Container */}
       <div className="relative aspect-[3/4] bg-[#F2F4F7] overflow-hidden">
-        <ResilientImage
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-        />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={displayImage}
+            initial={{ opacity: 0.65, scale: 1.01 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0.65 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full h-full"
+          >
+            <ResilientImage
+              src={displayImage}
+              alt={`${product.name} in ${selectedColor?.name || ''}`}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {product.tag && (
           <span className="absolute top-3 left-3 bg-white/95 text-[#0A2540] text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-xs">

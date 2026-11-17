@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowRight,
   Building2,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
   CreditCard,
+  MapPin,
+  Phone,
   RefreshCw,
   ShieldCheck,
   Star,
@@ -12,62 +18,170 @@ import { useStore } from '../context/StoreContext';
 import {
   COLLECTIONS,
   HERO_IMAGE,
+  HERO_SLIDES,
   INSTITUTIONS_SERVED,
   PRESS_MENTIONS,
   PRODUCTS,
   TESTIMONIALS,
   TRUST_STATS,
 } from '../data/catalog';
+import { OFFLINE_STORES } from '../data/stores';
 import { ProductCard } from '../components/ProductCard';
 import { ResilientImage } from '../components/ResilientImage';
 
 export function HomePage() {
   const { navigate } = useStore();
 
+  const [heroIdx, setHeroIdx] = useState(0);
+
+  const [testiIdx, setTestiIdx] = useState(0);
+  const [testiDir, setTestiDir] = useState<1 | -1>(1);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHeroIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 3200);
+    return () => clearTimeout(timer);
+  }, [heroIdx]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTestiDir(1);
+      setTestiIdx((prev) => (prev + 1) % TESTIMONIALS.length);
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, [testiIdx]);
+
+  const currentSlide = HERO_SLIDES[heroIdx] || HERO_SLIDES[0];
   const featuredProducts = [PRODUCTS[0], PRODUCTS[1], PRODUCTS[2], PRODUCTS[3]];
+
+  const visibleTestimonials = [0, 1, 2].map(
+    (offset) => TESTIMONIALS[(testiIdx + offset) % TESTIMONIALS.length]
+  );
+
+  const stepHero = (delta: number) => {
+    setHeroIdx((prev) => (prev + delta + HERO_SLIDES.length) % HERO_SLIDES.length);
+  };
+
+  const stepTestimonials = (delta: 1 | -1) => {
+    setTestiDir(delta);
+    setTestiIdx((prev) => (prev + delta + TESTIMONIALS.length) % TESTIMONIALS.length);
+  };
 
   return (
     <main>
-      {/* 1. Hero Section */}
-      <section className="relative min-h-[560px] lg:min-h-[640px] flex items-center bg-[#0A2540] overflow-hidden">
+      {/* 1. Hero Carousel Slides */}
+      <section className="relative min-h-[560px] lg:min-h-[640px] flex flex-col justify-between bg-[#0A2540] overflow-hidden">
         <div className="absolute inset-0">
-          <ResilientImage
-            src={HERO_IMAGE}
-            alt="Indian healthcare professionals wearing Trade Meds tailored clinical scrubs in a modern hospital corridor"
-            className="w-full h-full object-cover object-center"
-          />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide.id}
+              initial={{ opacity: 0.4, scale: 1.02 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0.4 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full h-full"
+            >
+              <ResilientImage
+                src={currentSlide.image}
+                alt={currentSlide.alt}
+                className="w-full h-full object-cover object-center"
+              />
+            </motion.div>
+          </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A2540]/92 via-[#0A2540]/65 to-[#0A2540]/15" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-          <div className="max-w-xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#93C5FD] mb-4">
-              Engineered for the Everyday Hero
-            </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white leading-[1.1] mb-5">
-              Care starts with <em className="italic text-[#BAE6FD] font-normal">what you wear.</em>
-            </h1>
-            <p className="text-base sm:text-lg text-[#E2E8F0] leading-relaxed mb-8 max-w-lg">
-              Shift-tested medical scrubs, chief lab coats, and precision acoustic stethoscopes built for 12-hour hospital duties.
-            </p>
-            <div className="flex flex-wrap items-center gap-3.5">
+        {/* Left & Right Slide Arrows */}
+        <button
+          type="button"
+          onClick={() => stepHero(-1)}
+          aria-label="Previous hero slide"
+          className="hidden sm:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 text-white items-center justify-center transition-colors"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => stepHero(1)}
+          aria-label="Next hero slide"
+          className="hidden sm:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 text-white items-center justify-center transition-colors"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+
+        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10 w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-xl"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#93C5FD] mb-4">
+                {currentSlide.eyebrow}
+              </p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white leading-[1.1] mb-5">
+                {currentSlide.titlePrefix}{' '}
+                <em className="italic text-[#BAE6FD] font-normal">
+                  {currentSlide.titleHighlight}
+                </em>
+              </h1>
+              <p className="text-base sm:text-lg text-[#E2E8F0] leading-relaxed mb-8 max-w-lg">
+                {currentSlide.subtitle}
+              </p>
+              <div className="flex flex-wrap items-center gap-3.5">
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigate(currentSlide.primaryCta.page, {
+                      category: currentSlide.primaryCta.category,
+                    })
+                  }
+                  className="px-6 py-3.5 bg-white text-[#0A2540] hover:bg-[#E2E8F0] text-sm font-bold rounded-lg inline-flex items-center gap-2 transition-colors shadow-sm whitespace-nowrap shrink-0"
+                >
+                  <span>{currentSlide.primaryCta.label}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    'category' in currentSlide.secondaryCta
+                      ? navigate(currentSlide.secondaryCta.page, {
+                          category: currentSlide.secondaryCta.category,
+                        })
+                      : navigate(currentSlide.secondaryCta.page)
+                  }
+                  className="px-6 py-3.5 border border-white/50 text-white hover:bg-white/10 text-sm font-semibold rounded-lg inline-flex items-center gap-2 transition-colors whitespace-nowrap shrink-0"
+                >
+                  {currentSlide.secondaryCta.page === 'stores' && (
+                    <MapPin className="w-4 h-4" />
+                  )}
+                  <span>{currentSlide.secondaryCta.label}</span>
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Bottom Minimal Slide Dots */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 w-full flex items-center justify-center sm:justify-start gap-2">
+          {HERO_SLIDES.map((slide, idx) => {
+            const active = idx === heroIdx;
+            return (
               <button
+                key={slide.id}
                 type="button"
-                onClick={() => navigate('shop', { category: '' })}
-                className="px-6 py-3.5 bg-white text-[#0A2540] hover:bg-[#E2E8F0] text-sm font-bold rounded-lg inline-flex items-center gap-2 transition-colors shadow-sm whitespace-nowrap shrink-0"
-              >
-                <span>Shop the Collection</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('shop', { category: 'Stethoscopes' })}
-                className="px-6 py-3.5 border border-white/50 text-white hover:bg-white/10 text-sm font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0"
-              >
-                Explore Stethoscopes
-              </button>
-            </div>
-          </div>
+                onClick={() => setHeroIdx(idx)}
+                aria-label={`View slide ${idx + 1}: ${slide.shortLabel}`}
+                className={`h-2 rounded-full transition-all duration-200 ${
+                  active ? 'w-7 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'
+                }`}
+              />
+            );
+          })}
         </div>
       </section>
 
@@ -110,10 +224,14 @@ export function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {COLLECTIONS.map((col) => (
-              <button
+            {COLLECTIONS.map((col, idx) => (
+              <motion.button
                 key={col.title}
                 type="button"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.24, delay: idx * 0.04, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => navigate('shop', { category: col.category })}
                 className="group relative aspect-[3/4] rounded-xl overflow-hidden bg-[#F1F5F9] text-left transition-transform duration-200 hover:-translate-y-1 shadow-xs hover:shadow-lg"
               >
@@ -132,7 +250,7 @@ export function HomePage() {
                   </h3>
                   <p className="text-xs text-white/75 mt-1 line-clamp-1">{col.subtitle}</p>
                 </div>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -161,8 +279,16 @@ export function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {featuredProducts.map((product, idx) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.24, delay: idx * 0.04, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
             ))}
           </div>
         </div>
@@ -258,46 +384,110 @@ export function HomePage() {
             ))}
           </div>
 
-          {/* Attributable Clinician Testimonials */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t) => (
-              <article
-                key={t.id}
-                className="p-6 rounded-xl bg-[#FAFBF9] border border-[#E2E8F0] flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-1 text-[#F59E0B] mb-4" aria-label={`${t.rating} out of 5 stars`}>
-                    {Array.from({ length: t.rating }).map((_, idx) => (
-                      <Star key={idx} className="w-4 h-4 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-[#334155] leading-relaxed mb-6">
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                </div>
+          {/* Attributable Clinician Testimonials Carousel */}
+          <div>
+            <div className="flex items-center justify-between gap-4 mb-6">
+              <p className="text-xs font-semibold text-[#64748B] tabular-nums">
+                Showing verified clinical feedback · Slide {testiIdx + 1} of {TESTIMONIALS.length}
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => stepTestimonials(-1)}
+                  aria-label="Previous clinician testimonials"
+                  className="w-9 h-9 rounded-lg border border-[#CBD5E1] hover:border-[#0A2540] text-[#0A2540] flex items-center justify-center transition-colors bg-white"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => stepTestimonials(1)}
+                  aria-label="Next clinician testimonials"
+                  className="w-9 h-9 rounded-lg border border-[#CBD5E1] hover:border-[#0A2540] text-[#0A2540] flex items-center justify-center transition-colors bg-white"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
 
-                <div className="pt-4 border-t border-[#E2E8F0]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-full overflow-hidden bg-[#E2E8F0] shrink-0">
-                      <ResilientImage
-                        src={t.avatar}
-                        alt={t.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-sm font-bold text-[#0A2540] truncate">{t.name}</div>
-                      <div className="text-xs text-[#64748B] truncate">
-                        {t.role} · {t.hospital}
+            <div className="overflow-hidden">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={testiIdx}
+                  initial={{ opacity: 0, x: testiDir > 0 ? 24 : -24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: testiDir > 0 ? -24 : 24 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                >
+                  {visibleTestimonials.map((t, cardPos) => (
+                    <article
+                      key={t.id}
+                      className={`p-6 rounded-xl bg-[#FAFBF9] border border-[#E2E8F0] flex flex-col justify-between ${
+                        cardPos > 0 ? 'hidden md:flex' : 'flex'
+                      }`}
+                    >
+                      <div>
+                        <div
+                          className="flex items-center gap-1 text-[#F59E0B] mb-4"
+                          aria-label={`${t.rating} out of 5 stars`}
+                        >
+                          {Array.from({ length: t.rating }).map((_, idx2) => (
+                            <Star key={idx2} className="w-4 h-4 fill-current" />
+                          ))}
+                        </div>
+                        <p className="text-sm text-[#334155] leading-relaxed mb-6">
+                          &ldquo;{t.quote}&rdquo;
+                        </p>
                       </div>
-                    </div>
-                  </div>
-                  <div className="mt-3 text-[11px] text-[#2563EB] font-medium">
-                    Verified buyer · {t.productRef}
-                  </div>
-                </div>
-              </article>
-            ))}
+
+                      <div className="pt-4 border-t border-[#E2E8F0]">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-full overflow-hidden bg-[#E2E8F0] shrink-0">
+                            <ResilientImage
+                              src={t.avatar}
+                              alt={t.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-sm font-bold text-[#0A2540] truncate">
+                              {t.name}
+                            </div>
+                            <div className="text-xs text-[#64748B] truncate">
+                              {t.role} · {t.hospital}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-3 text-[11px] text-[#2563EB] font-medium">
+                          Verified buyer · {t.productRef}
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Carousel Dots */}
+            <div className="flex items-center justify-center gap-2 mt-6">
+              {TESTIMONIALS.map((t, idx) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => {
+                    setTestiDir(idx >= testiIdx ? 1 : -1);
+                    setTestiIdx(idx);
+                  }}
+                  aria-label={`Show testimonial ${idx + 1}: ${t.name}`}
+                  className={`h-2 rounded-full transition-all ${
+                    idx === testiIdx
+                      ? 'w-7 bg-[#0A2540]'
+                      : 'w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* 4-Column Service Guarantees */}
@@ -412,6 +602,93 @@ export function HomePage() {
                 Track Existing Order
               </button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Offline Experience Centres Preview */}
+      <section className="py-16 sm:py-20 bg-white border-t border-[#E2E8F0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#2563EB] mb-2">
+                Offline Experience Centres
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[#0A2540]">
+                Try fabrics &amp; fits <em className="italic text-[#2563EB] font-normal">near your hospital</em>
+              </h2>
+              <p className="text-sm sm:text-base text-[#475569] mt-2 max-w-2xl">
+                Walk into any of our 8 clinical fitting studios for express embroidery, live stethoscope acoustic testing, and instant size exchanges.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate('stores')}
+              className="text-sm font-semibold text-[#0A2540] hover:text-[#2563EB] inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 self-start sm:self-auto"
+            >
+              <span>View all 8 store locations</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {OFFLINE_STORES.slice(0, 3).map((store, idx) => (
+              <motion.div
+                key={store.id}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.24, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                className="p-6 rounded-xl bg-[#FAFBF9] border border-[#E2E8F0] flex flex-col justify-between hover:border-[#94A3B8] transition-colors"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div>
+                      <span className="text-xs font-semibold text-[#2563EB]">
+                        {store.city} · {store.badge}
+                      </span>
+                      <h3 className="text-base font-bold text-[#0A2540] font-sans mt-0.5">
+                        {store.name}
+                      </h3>
+                    </div>
+                    <MapPin className="w-5 h-5 text-[#2563EB] shrink-0" />
+                  </div>
+                  <p className="text-xs text-[#475569] leading-relaxed mt-2">{store.address}</p>
+                  <p className="text-xs font-medium text-[#059669] mt-1.5">{store.landmark}</p>
+                </div>
+
+                <div className="mt-5 pt-4 border-t border-[#E2E8F0] space-y-2">
+                  <div className="flex items-center justify-between text-xs text-[#64748B] tabular-nums">
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      {store.hours}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Phone className="w-3.5 h-3.5" />
+                      {store.phone}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => navigate('stores')}
+                    className="w-full mt-2 py-2 px-3 rounded-lg bg-white border border-[#CBD5E1] hover:border-[#0A2540] text-xs font-semibold text-[#0A2540] transition-colors"
+                  >
+                    Book Free In-Store Fitting
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => navigate('stores')}
+              className="px-6 py-3 bg-[#0A2540] hover:bg-[#1E3A8A] text-white text-sm font-bold rounded-lg inline-flex items-center gap-2 transition-colors"
+            >
+              <MapPin className="w-4 h-4" />
+              <span>View All 8 Store Locations &amp; Book Fitting</span>
+            </button>
           </div>
         </div>
       </section>
