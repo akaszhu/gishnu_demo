@@ -12,6 +12,7 @@ import {
 import { useStore } from '../context/StoreContext';
 import { PRODUCTS } from '../data/catalog';
 import { PaymentMethod, ShippingAddress } from '../types/store';
+import { ResilientImage } from '../components/ResilientImage';
 
 const INDIAN_STATES = [
   'Maharashtra',
@@ -197,9 +198,22 @@ export function CheckoutPage() {
               Secure Checkout &amp; Payment
             </h1>
           </div>
-          <div className="flex items-center gap-2 text-xs text-[#CBD5E1]">
-            <Lock className="w-4 h-4 text-[#10B981]" />
-            <span>256-Bit SSL Encrypted Clinical Payment Gateway</span>
+          <div className="flex flex-col sm:items-end gap-2">
+            <div className="flex items-center gap-2 text-xs font-semibold tabular-nums">
+              <span className="px-2.5 py-1 rounded-md bg-white/10 text-[#93C5FD]">1. Bag</span>
+              <span className="text-white/40">→</span>
+              <span className="px-2.5 py-1 rounded-md bg-white text-[#0A2540]">
+                2. Shipping &amp; Payment
+              </span>
+              <span className="text-white/40">→</span>
+              <span className="px-2.5 py-1 rounded-md bg-white/10 text-white/60">
+                3. Confirmed
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#CBD5E1]">
+              <Lock className="w-4 h-4 text-[#10B981]" />
+              <span>256-Bit SSL Encrypted Clinical Payment Gateway</span>
+            </div>
           </div>
         </div>
       </div>
@@ -347,6 +361,11 @@ export function CheckoutPage() {
                   placeholder="400012"
                   className="w-full px-3.5 py-2.5 text-sm border border-[#CBD5E1] rounded-lg tabular-nums focus:outline-none focus:border-[#0A2540]"
                 />
+                {address.pinCode.length === 6 && (
+                  <p className="text-[11px] font-semibold text-[#059669] mt-1">
+                    ✓ Express 24–48h dispatch &amp; COD serviceable at PIN {address.pinCode}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -708,14 +727,24 @@ export function CheckoutPage() {
             {cart.map((item) => {
               const p = PRODUCTS.find((x) => x.id === item.productId);
               if (!p) return null;
+              const thumb = p.colors.find((c) => c.name === item.color)?.image || p.image;
               return (
-                <div key={item.key} className="flex justify-between gap-3 text-sm">
-                  <div className="min-w-0">
-                    <p className="font-semibold text-[#0A2540] truncate">{p.name}</p>
-                    <p className="text-xs text-[#64748B]">
-                      {item.color} · Size {item.size} × {item.qty}
-                      {item.embroidery?.enabled ? ' · +Embroidery' : ''}
-                    </p>
+                <div key={item.key} className="flex items-center justify-between gap-3 text-sm">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-11 h-14 rounded-md overflow-hidden bg-[#F1F5F9] shrink-0">
+                      <ResilientImage
+                        src={thumb}
+                        alt={p.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-[#0A2540] truncate">{p.name}</p>
+                      <p className="text-xs text-[#64748B]">
+                        {item.color} · Size {item.size} × {item.qty}
+                        {item.embroidery?.enabled ? ' · +Embroidery' : ''}
+                      </p>
+                    </div>
                   </div>
                   <span className="font-bold text-[#0A2540] tabular-nums shrink-0">
                     ₹

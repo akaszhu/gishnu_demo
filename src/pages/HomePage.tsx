@@ -11,6 +11,8 @@ import {
   Phone,
   RefreshCw,
   ShieldCheck,
+  ShoppingBag,
+  Sparkles,
   Star,
   Truck,
 } from 'lucide-react';
@@ -30,12 +32,17 @@ import { ProductCard } from '../components/ProductCard';
 import { ResilientImage } from '../components/ResilientImage';
 
 export function HomePage() {
-  const { navigate } = useStore();
+  const { navigate, addToCart, applyPromo, recentlyViewed } = useStore();
 
   const [heroIdx, setHeroIdx] = useState(0);
 
   const [testiIdx, setTestiIdx] = useState(0);
   const [testiDir, setTestiDir] = useState<1 | -1>(1);
+
+  const [showcaseCat, setShowcaseCat] = useState<
+    'Bestsellers' | 'Women' | 'Men' | 'Lab Coats' | 'Stethoscopes' | 'Accessories'
+  >('Bestsellers');
+  const [bundleTrack, setBundleTrack] = useState<'Women' | 'Men'>('Women');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,7 +60,33 @@ export function HomePage() {
   }, [testiIdx]);
 
   const currentSlide = HERO_SLIDES[heroIdx] || HERO_SLIDES[0];
-  const featuredProducts = [PRODUCTS[0], PRODUCTS[1], PRODUCTS[2], PRODUCTS[3]];
+  const showcaseProducts =
+    showcaseCat === 'Bestsellers'
+      ? [PRODUCTS[0], PRODUCTS[1], PRODUCTS[2], PRODUCTS[3]]
+      : PRODUCTS.filter((p) => p.category === showcaseCat).slice(0, 4);
+
+  const bundleItems = [
+    bundleTrack === 'Women' ? PRODUCTS[0] : PRODUCTS[1],
+    PRODUCTS[3],
+    PRODUCTS[11],
+  ];
+  const bundleOriginalMrp = bundleItems.reduce((s, p) => s + (p.oldPrice || p.price), 0);
+  const bundleSaleSum = bundleItems.reduce((s, p) => s + p.price, 0);
+  const bundleAfterPromo = Math.round(bundleSaleSum * 0.88);
+  const recentProducts = recentlyViewed
+    .map((id) => PRODUCTS.find((p) => p.id === id))
+    .filter((p): p is (typeof PRODUCTS)[number] => Boolean(p))
+    .slice(0, 4);
+
+  const handleAddBundle = () => {
+    bundleItems.forEach((p, idx) => {
+      addToCart(p.id, {
+        qty: 1,
+        openDrawer: idx === bundleItems.length - 1,
+      });
+    });
+    applyPromo('FLASH12');
+  };
 
   const visibleTestimonials = [0, 1, 2].map(
     (offset) => TESTIMONIALS[(testiIdx + offset) % TESTIMONIALS.length]
@@ -259,7 +292,7 @@ export function HomePage() {
       {/* 4. Community Favourites */}
       <section className="py-16 sm:py-20 bg-[#F4F6F9]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
             <div>
               <h2 className="text-3xl sm:text-4xl font-semibold text-[#0A2540]">
                 Community <em className="italic text-[#2563EB] font-normal">favourites</em>
@@ -270,7 +303,11 @@ export function HomePage() {
             </div>
             <button
               type="button"
-              onClick={() => navigate('shop', { category: '' })}
+              onClick={() =>
+                navigate('shop', {
+                  category: showcaseCat === 'Bestsellers' ? '' : showcaseCat,
+                })
+              }
               className="text-sm font-semibold text-[#0A2540] hover:text-[#2563EB] inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 self-start sm:self-auto"
             >
               <span>Shop full catalog</span>
@@ -278,18 +315,118 @@ export function HomePage() {
             </button>
           </div>
 
+          {/* Interactive Category Filter Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6">
+            {(
+              ['Bestsellers', 'Women', 'Men', 'Lab Coats', 'Stethoscopes', 'Accessories'] as const
+            ).map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setShowcaseCat(cat)}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0 transition-colors ${
+                  showcaseCat === cat
+                    ? 'bg-[#0A2540] text-white'
+                    : 'bg-white text-[#475569] border border-[#E2E8F0] hover:text-[#0A2540]'
+                }`}
+              >
+                {cat === 'Bestsellers' ? 'All Bestsellers' : cat}
+              </button>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product, idx) => (
+            {showcaseProducts.map((product, idx) => (
               <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.24, delay: idx * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                key={`${showcaseCat}-${product.id}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, delay: idx * 0.03, ease: [0.16, 1, 0.3, 1] }}
               >
                 <ProductCard product={product} />
               </motion.div>
             ))}
+          </div>
+
+          {/* Complete 3-Piece Shift Bundle Builder */}
+          <div className="mt-12 bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 shadow-xs">
+            <div className="flex-1 space-y-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2563EB] uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Complete Shift Bundle · Save with FLASH12</span>
+                </span>
+                <div className="inline-flex p-0.5 bg-[#F1F5F9] rounded-lg text-xs">
+                  {(['Women', 'Men'] as const).map((g) => (
+                    <button
+                      key={g}
+                      type="button"
+                      onClick={() => setBundleTrack(g)}
+                      className={`px-3 py-1 rounded-md font-semibold transition-colors ${
+                        bundleTrack === g ? 'bg-white text-[#0A2540] shadow-xs' : 'text-[#64748B]'
+                      }`}
+                    >
+                      {g}&apos;s Kit
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <h3 className="text-2xl font-semibold text-[#0A2540]">
+                {bundleTrack}&apos;s Complete 12-Hour Rotation Kit
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {bundleItems.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => navigate('product', { productId: item.id })}
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[#FAFBF9] border border-[#E2E8F0] hover:border-[#0A2540] text-left transition-colors"
+                  >
+                    <div className="w-11 h-14 rounded-lg overflow-hidden bg-[#E2E8F0] shrink-0">
+                      <ResilientImage
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-xs font-bold text-[#0A2540] truncate">{item.name}</div>
+                      <div className="text-[11px] text-[#64748B] tabular-nums">
+                        ₹{item.price.toLocaleString('en-IN')}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="w-full lg:w-72 shrink-0 p-5 rounded-xl bg-[#FAFBF9] border border-[#E2E8F0] space-y-3 tabular-nums">
+              <div className="flex items-baseline justify-between">
+                <span className="text-xs text-[#64748B]">MRP Total</span>
+                <span className="text-sm text-[#94A3B8] line-through">
+                  ₹{bundleOriginalMrp.toLocaleString('en-IN')}
+                </span>
+              </div>
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm font-bold text-[#0A2540]">Bundle + FLASH12</span>
+                <span className="text-2xl font-extrabold text-[#0A2540]">
+                  ₹{bundleAfterPromo.toLocaleString('en-IN')}
+                </span>
+              </div>
+              <div className="text-xs font-bold text-[#047857] bg-[#ECFDF5] px-2.5 py-1 rounded-md text-center">
+                Total Savings: ₹{(bundleOriginalMrp - bundleAfterPromo).toLocaleString('en-IN')} + Free Shipping
+              </div>
+              <button
+                type="button"
+                onClick={handleAddBundle}
+                className="w-full py-3 px-4 bg-[#0A2540] hover:bg-[#1E3A8A] text-white text-xs font-bold rounded-lg inline-flex items-center justify-center gap-2 transition-colors"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                <span>Add Full 3-Piece Kit</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -692,6 +829,38 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 9. Recently Viewed Products */}
+      {recentProducts.length > 0 && (
+        <section className="py-14 bg-[#F4F6F9] border-t border-[#E2E8F0]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-4 mb-8">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-semibold text-[#0A2540]">
+                  Recently <em className="italic text-[#2563EB] font-normal">viewed</em>
+                </h2>
+                <p className="text-xs sm:text-sm text-[#64748B] mt-1">
+                  Pick up right where you left off.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => navigate('shop', { category: '' })}
+                className="text-xs sm:text-sm font-semibold text-[#0A2540] hover:text-[#2563EB] inline-flex items-center gap-1"
+              >
+                <span>Browse all</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {recentProducts.map((product) => (
+                <ProductCard key={`recent-${product.id}`} product={product} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </main>
   );
 }

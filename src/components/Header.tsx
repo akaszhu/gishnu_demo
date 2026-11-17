@@ -11,8 +11,10 @@ import {
   X,
 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
+import { PRODUCTS } from '../data/catalog';
 import { CategoryName } from '../types/store';
 import { BrandLogo } from './BrandLogo';
+import { ResilientImage } from './ResilientImage';
 
 const NAV_LINKS: Array<{
   label: string;
@@ -84,6 +86,17 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
+
+  const liveSearchMatches = searchQuery.trim()
+    ? PRODUCTS.filter((p) => {
+        const q = searchQuery.trim().toLowerCase();
+        return (
+          p.name.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          p.line.toLowerCase().includes(q)
+        );
+      }).slice(0, 4)
+    : [];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -316,6 +329,36 @@ export function Header() {
                 <X className="w-4 h-4" />
               </button>
             </form>
+
+            {liveSearchMatches.length > 0 && (
+              <div className="max-w-3xl mx-auto mt-3 pt-3 border-t border-[#E2E8F0] grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {liveSearchMatches.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => {
+                      setSearchOpen(false);
+                      navigate('product', { productId: p.id });
+                    }}
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#F8FAFC] text-left transition-colors"
+                  >
+                    <div className="w-10 h-12 rounded-md overflow-hidden bg-[#F1F5F9] shrink-0">
+                      <ResilientImage
+                        src={p.image}
+                        alt={p.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-bold text-[#0A2540] truncate">{p.name}</div>
+                      <div className="text-[11px] text-[#64748B] tabular-nums">
+                        {p.category} · ₹{p.price.toLocaleString('en-IN')}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
             </motion.div>
           )}
         </AnimatePresence>

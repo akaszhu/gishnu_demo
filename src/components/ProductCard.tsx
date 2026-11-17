@@ -16,6 +16,9 @@ export function ProductCard({ product }: ProductCardProps) {
   const isSaved = wishlist.includes(product.id);
   const selectedColor = product.colors[activeColorIdx] || product.colors[0];
   const displayImage = selectedColor?.image || product.image;
+  const discountPct = product.oldPrice
+    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+    : 0;
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -75,12 +78,12 @@ export function ProductCard({ product }: ProductCardProps) {
           <Heart className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
         </button>
 
-        {/* Quick-Add Bar */}
-        <div className="absolute inset-x-3 bottom-3 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
+        {/* Quick-Add Bar (visible on touch, reveal-on-hover on desktop) */}
+        <div className="absolute inset-x-3 bottom-3 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 transition-all duration-200">
           <button
             type="button"
             onClick={handleQuickAdd}
-            className="w-full py-2.5 px-3 bg-[#0A2540] hover:bg-[#1E3A8A] text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 shadow-md transition-colors"
+            className="w-full py-2.5 px-3 bg-[#0A2540]/95 hover:bg-[#1E3A8A] text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 shadow-md transition-colors backdrop-blur-xs"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Quick Add · {selectedColor?.name}</span>
@@ -106,37 +109,47 @@ export function ProductCard({ product }: ProductCardProps) {
         </h3>
 
         <div className="mt-auto pt-1">
-          <div className="flex items-baseline gap-2 tabular-nums">
+          <div className="flex items-baseline flex-wrap gap-2 tabular-nums">
             <span className="text-base font-bold text-[#0A2540]">
               ₹{product.price.toLocaleString('en-IN')}
             </span>
             {product.oldPrice && (
-              <span className="text-xs text-[#94A3B8] line-through">
-                ₹{product.oldPrice.toLocaleString('en-IN')}
-              </span>
+              <>
+                <span className="text-xs text-[#94A3B8] line-through">
+                  ₹{product.oldPrice.toLocaleString('en-IN')}
+                </span>
+                <span className="text-[11px] font-bold text-[#047857] bg-[#ECFDF5] px-1.5 py-0.5 rounded">
+                  {discountPct}% OFF
+                </span>
+              </>
             )}
           </div>
 
-          {/* Interactive Color Swatches */}
-          <div className="flex items-center gap-1.5 mt-3">
-            {product.colors.slice(0, 5).map((c, idx) => (
-              <button
-                key={c.name}
-                type="button"
-                title={c.name}
-                aria-label={`Select color ${c.name}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveColorIdx(idx);
-                }}
-                className={`w-4 h-4 rounded-full border transition-transform ${
-                  idx === activeColorIdx
-                    ? 'ring-2 ring-[#0A2540] ring-offset-1 scale-110 border-white'
-                    : 'border-black/15 hover:scale-105'
-                }`}
-                style={{ backgroundColor: c.hex }}
-              />
-            ))}
+          {/* Interactive Color Swatches + Active Color Name */}
+          <div className="flex items-center justify-between gap-2 mt-3">
+            <div className="flex items-center gap-1.5">
+              {product.colors.slice(0, 5).map((c, idx) => (
+                <button
+                  key={c.name}
+                  type="button"
+                  title={c.name}
+                  aria-label={`Select color ${c.name}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveColorIdx(idx);
+                  }}
+                  className={`w-4 h-4 rounded-full border transition-transform ${
+                    idx === activeColorIdx
+                      ? 'ring-2 ring-[#0A2540] ring-offset-1 scale-110 border-white'
+                      : 'border-black/15 hover:scale-105'
+                  }`}
+                  style={{ backgroundColor: c.hex }}
+                />
+              ))}
+            </div>
+            <span className="text-[11px] text-[#64748B] truncate max-w-[110px]">
+              {selectedColor?.name}
+            </span>
           </div>
         </div>
       </div>

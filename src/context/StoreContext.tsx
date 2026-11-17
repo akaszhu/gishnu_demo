@@ -35,6 +35,7 @@ interface StoreContextValue {
 
   wishlist: number[];
   toggleWishlist: (productId: number) => void;
+  recentlyViewed: number[];
 
   appliedPromo: string;
   applyPromo: (code: string) => { ok: boolean; message: string };
@@ -89,6 +90,15 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       return saved ? JSON.parse(saved) : [1, 4];
     } catch {
       return [1, 4];
+    }
+  });
+
+  const [recentlyViewed, setRecentlyViewed] = useState<number[]>(() => {
+    try {
+      const saved = localStorage.getItem('tm_recent_v2');
+      return saved ? JSON.parse(saved) : [1, 2, 3, 4];
+    } catch {
+      return [1, 2, 3, 4];
     }
   });
 
@@ -184,8 +194,18 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       setSelectedCategory(opts.category);
     }
     if (opts?.productId !== undefined) {
-      setSelectedProductId(opts.productId);
+      const pid = opts.productId;
+      setSelectedProductId(pid);
       setSelectedProductColor(opts.color || '');
+      setRecentlyViewed((prev) => {
+        const next = [pid, ...prev.filter((id) => id !== pid)].slice(0, 8);
+        try {
+          localStorage.setItem('tm_recent_v2', JSON.stringify(next));
+        } catch {
+          // ignore
+        }
+        return next;
+      });
     }
     setCartDrawerOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -359,6 +379,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         embroideryTotal,
         wishlist,
         toggleWishlist,
+        recentlyViewed,
         appliedPromo,
         applyPromo,
         removePromo,

@@ -13,6 +13,9 @@ export function CartDrawer() {
     cartCount,
     cartSubtotal,
     embroideryTotal,
+    appliedPromo,
+    discountAmount,
+    addToCart,
     updateCartQty,
     removeFromCart,
     navigate,
@@ -21,6 +24,10 @@ export function CartDrawer() {
   const freeShippingThreshold = 1999;
   const remaining = Math.max(0, freeShippingThreshold - cartSubtotal);
   const progress = Math.min(100, Math.round((cartSubtotal / freeShippingThreshold) * 100));
+  const upsells = PRODUCTS.filter(
+    (p) => [14, 13, 12, 11].includes(p.id) && !cart.some((c) => c.productId === p.id)
+  ).slice(0, 2);
+  const estimatedPayable = Math.max(0, cartSubtotal + embroideryTotal - discountAmount);
 
   return (
     <AnimatePresence>
@@ -193,20 +200,71 @@ export function CartDrawer() {
               })}
             </div>
           )}
+
+          {/* Shift Add-On Upsells */}
+          {cart.length > 0 && upsells.length > 0 && (
+            <div className="mt-5 pt-4 border-t border-[#E2E8F0]">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2.5">
+                Frequently Added for Shifts
+              </p>
+              <div className="space-y-2">
+                {upsells.map((u) => (
+                  <div
+                    key={u.id}
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0]"
+                  >
+                    <div className="w-10 h-12 rounded-md overflow-hidden bg-[#E2E8F0] shrink-0">
+                      <ResilientImage
+                        src={u.image}
+                        alt={u.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-semibold text-[#0A2540] truncate">
+                        {u.name}
+                      </div>
+                      <div className="text-[11px] text-[#64748B] tabular-nums">
+                        ₹{u.price.toLocaleString('en-IN')}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => addToCart(u.id, { qty: 1, openDrawer: true })}
+                      className="px-2.5 py-1.5 rounded-lg bg-white border border-[#CBD5E1] hover:border-[#0A2540] text-xs font-bold text-[#0A2540] shrink-0"
+                    >
+                      + Add
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
         {cart.length > 0 && (
           <div className="p-6 border-t border-[#E2E8F0] bg-[#FAFBF9]">
-            <div className="flex items-center justify-between text-sm text-[#475569] mb-1">
-              <span>Subtotal</span>
-              <span className="font-semibold text-[#0A2540] tabular-nums">
-                ₹{(cartSubtotal + embroideryTotal).toLocaleString('en-IN')}
-              </span>
+            <div className="space-y-1 text-sm mb-3 tabular-nums">
+              <div className="flex items-center justify-between text-[#475569]">
+                <span>Subtotal</span>
+                <span className="font-semibold text-[#0A2540]">
+                  ₹{(cartSubtotal + embroideryTotal).toLocaleString('en-IN')}
+                </span>
+              </div>
+              {appliedPromo && discountAmount > 0 && (
+                <div className="flex items-center justify-between text-xs text-[#059669] font-semibold">
+                  <span>Promo ({appliedPromo}) applied</span>
+                  <span>− ₹{discountAmount.toLocaleString('en-IN')}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between pt-1.5 border-t border-[#E2E8F0]">
+                <span className="font-bold text-[#0A2540]">Estimated Total</span>
+                <span className="text-base font-extrabold text-[#0A2540]">
+                  ₹{estimatedPayable.toLocaleString('en-IN')}
+                </span>
+              </div>
             </div>
-            <p className="text-xs text-[#64748B] mb-4">
-              Apply promo code <span className="font-semibold text-[#0A2540]">FLASH12</span> at checkout for 12% off.
-            </p>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
